@@ -31,7 +31,7 @@ Statement.on(EmployeeTable).drop().toString() // DROP TABLE "organizations"
 
 ```
 // CREATE TABLE "employees" ...
-val createEmployeeTable = Statement.on(EmployeeTable)
+Statement.on(EmployeeTable)
 		.create { e ->
 			e.id.integer().primaryKey(autoIncrement = true).notNull() +
 			e.name.text().unique().notNull() +
@@ -39,7 +39,7 @@ val createEmployeeTable = Statement.on(EmployeeTable)
 		}
 
 // CREATE TABLE "organizations" ...
-val createOrganizationTable = Statement.on(OrganizationTable)
+Statement.on(OrganizationTable)
 		.create { e ->
 			e.id.integer().primaryKey(autoIncrement = true).notNull() +
 			e.name.text().unique().notNull()
@@ -50,7 +50,7 @@ val createOrganizationTable = Statement.on(OrganizationTable)
 
 ```
 // DROP TABLE "employees"
-val dropStatement = Statement.on(EmployeeTable).drop()
+Statement.on(EmployeeTable).drop()
 ```
 
 ## Data Manipulation Language
@@ -61,7 +61,7 @@ Data manipulation is the most powerfull and complex part of SQL. The library sup
 
 ```
 // INSERT INTO "organizations"("name", "organization_id") VALUES('?', '?')
-val insertStatement = Statement.on(EmployeeTable)
+Statement.on(EmployeeTable)
 		.insert { e -> e.name("?") + e.organizationId("?") } // invoke syntax is used to set a value for the column
 ```
 
@@ -75,7 +75,7 @@ The library provides the following operators (infix functions):
 
 ```
 // SELECT "id", "name" FROM "organizations" WHERE ...
-val selectStatement = Statement.on(EmployeeTable)
+Statement.on(EmployeeTable)
 		.where { e -> (e.organizationId ne null) and (e.name eq "''") }
 		.orderBy { e -> e.name + e.id.desc }
 		.limit { 10 }
@@ -87,7 +87,7 @@ Joining tables is also supported
 
 ```
 // SELECT ... FROM "organizations" JOIN "employees" ON ...
-val joinStatement = Statement.on(OrganizationTable)
+Statement.on(OrganizationTable)
 		.join(EmployeeTable).on { o, e -> o.id eq e.organizationId }
 		.select { o, e -> o.name + e.name }
 ```
@@ -96,7 +96,7 @@ val joinStatement = Statement.on(OrganizationTable)
 
 ```
 // UPDATE "organizations" SET ... WHERE "id" = 1
-val updateStatement = Statement.on(OrganizationTable)
+Statement.on(OrganizationTable)
 		.where { o -> o.id eq 1 }
 		.update { o -> o.name("?") }
 ```
@@ -104,7 +104,7 @@ val updateStatement = Statement.on(OrganizationTable)
 ### DELETE statement
 ```
 // DELETE FROM "organizations" WHERE "id" = 0
-val deleteStatement = Statement.on(OrganizationTable)
+Statement.on(OrganizationTable)
 		.where { o -> o.id eq 0 }
 		.delete()
 ```
