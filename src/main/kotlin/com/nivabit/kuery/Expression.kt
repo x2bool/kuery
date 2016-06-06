@@ -104,6 +104,18 @@ class LtExpression(val leftHand: Any, val rightHand: Any) : Expression<Boolean>(
 
 }
 
+infix fun Table.Column.lt(param: Any): LtExpression {
+    return LtExpression("\"${this.table}\".\"$this\"", param)
+}
+
+infix fun Table.Column.lt(column: Table.Column): LtExpression {
+    return LtExpression("\"${this.table}\".\"$this\"", "\"${column.table}\".\"$column\"")
+}
+
+infix fun Table.Column.lt(value: Boolean): LtExpression {
+    return LtExpression("\"${this.table}\".\"$this\"", if (value) "1" else "0")
+}
+
 /**
  * Less than or equal expression
  */
@@ -113,6 +125,18 @@ class LteExpression(val leftHand: Any, val rightHand: Any) : Expression<Boolean>
         return "$leftHand <= $rightHand"
     }
 
+}
+
+infix fun Table.Column.lte(param: Any): LteExpression {
+    return LteExpression("\"${this.table}\".\"$this\"", param)
+}
+
+infix fun Table.Column.lte(column: Table.Column): LteExpression {
+    return LteExpression("\"${this.table}\".\"$this\"", "\"${column.table}\".\"$column\"")
+}
+
+infix fun Table.Column.lte(value: Boolean): LteExpression {
+    return LteExpression("\"${this.table}\".\"$this\"", if (value) "1" else "0")
 }
 
 /**
@@ -126,6 +150,18 @@ class GtExpression(val leftHand: Any, val rightHand: Any) : Expression<Boolean>(
 
 }
 
+infix fun Table.Column.gt(param: Any): GtExpression {
+    return GtExpression("\"${this.table}\".\"$this\"", param)
+}
+
+infix fun Table.Column.gt(column: Table.Column): GtExpression {
+    return GtExpression("\"${this.table}\".\"$this\"", "\"${column.table}\".\"$column\"")
+}
+
+infix fun Table.Column.gt(value: Boolean): GtExpression {
+    return GtExpression("\"${this.table}\".\"$this\"", if (value) "1" else "0")
+}
+
 /**
  * Greater than or equal expression
  */
@@ -135,4 +171,16 @@ class GteExpression(val leftHand: Any, val rightHand: Any) : Expression<Boolean>
         return "$leftHand >= $rightHand"
     }
 
+}
+
+infix fun Table.Column.gte(param: Any): GteExpression {
+    return GteExpression("\"${this.table}\".\"$this\"", param)
+}
+
+infix fun Table.Column.gte(column: Table.Column): GteExpression {
+    return GteExpression("\"${this.table}\".\"$this\"", "\"${column.table}\".\"$column\"")
+}
+
+infix fun Table.Column.gte(value: Boolean): GteExpression {
+    return GteExpression("\"${this.table}\".\"$this\"", if (value) "1" else "0")
 }

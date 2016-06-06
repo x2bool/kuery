@@ -67,11 +67,16 @@ Statement.on(EmployeeTable)
 
 ### SELECT statement
 
-The library provides the following operators (infix functions):
+The library provides the following operators to compose queries (infix functions):
 * and
 * or
+* not
 * eq (equals)
 * ne (not equals)
+* lt (less than)
+* lte (less than or equal to)
+* gt (greater than)
+* gte (greater than or equal to)
 
 ```kotlin
 // SELECT "id", "name" FROM "organizations" WHERE ...
