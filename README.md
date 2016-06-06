@@ -112,4 +112,6 @@ Statement.on(OrganizationTable)
 ## TODO
 * GROUP BY and HAVING clauses
 * JOIN on more than two tables
+* ALTER TABLE statement
 * Subqueries (research and prototyping)
+* Views (research)
