@@ -8,7 +8,7 @@ The library provides a way to work with a subset of SQL in Kotlin programming la
 
 The first step is to define the tables by inheriting from the **Table** class.
 
-```
+```kotlin
 object EmployeeTable : Table("employees") {
 	val id = Column("id")
 	val name = Column("name")
@@ -23,13 +23,13 @@ object OrganizationTable : Table("organizations") {
 
 **Statement** class is a starting point for writing any code. Resulting object can be turned into SQL by calling **.toString()** method. 
 
-```
+```kotlin
 Statement.on(EmployeeTable).drop().toString() // DROP TABLE "organizations"
 ```
 
 ### CREATE TABLE statement
 
-```
+```kotlin
 // CREATE TABLE "employees" ...
 Statement.on(EmployeeTable)
 		.create { e ->
@@ -48,7 +48,7 @@ Statement.on(OrganizationTable)
 
 ### DROP TABLE statement
 
-```
+```kotlin
 // DROP TABLE "employees"
 Statement.on(EmployeeTable).drop()
 ```
@@ -59,7 +59,7 @@ Data manipulation is the most powerfull and complex part of SQL. The library sup
 
 ### INSERT statement
 
-```
+```kotlin
 // INSERT INTO "organizations"("name", "organization_id") VALUES('?', '?')
 Statement.on(EmployeeTable)
 		.insert { e -> e.name("?") + e.organizationId("?") } // invoke syntax is used to set a value for the column
@@ -73,7 +73,7 @@ The library provides the following operators (infix functions):
 * eq (equals)
 * ne (not equals)
 
-```
+```kotlin
 // SELECT "id", "name" FROM "organizations" WHERE ...
 Statement.on(EmployeeTable)
 		.where { e -> (e.organizationId ne null) and (e.name eq "''") }
@@ -85,7 +85,7 @@ Statement.on(EmployeeTable)
 
 Joining tables is also supported
 
-```
+```kotlin
 // SELECT ... FROM "organizations" JOIN "employees" ON ...
 Statement.on(OrganizationTable)
 		.join(EmployeeTable).on { o, e -> o.id eq e.organizationId }
@@ -94,7 +94,7 @@ Statement.on(OrganizationTable)
 
 ### UPDATE statement
 
-```
+```kotlin
 // UPDATE "organizations" SET ... WHERE "id" = 1
 Statement.on(OrganizationTable)
 		.where { o -> o.id eq 1 }
@@ -102,7 +102,7 @@ Statement.on(OrganizationTable)
 ```
 
 ### DELETE statement
-```
+```kotlin
 // DELETE FROM "organizations" WHERE "id" = 0
 Statement.on(OrganizationTable)
 		.where { o -> o.id eq 0 }
