@@ -1,31 +1,27 @@
-# Kuery - easy SQL with Kotlin
+# Kuery - safe SQL with Kotlin
 
-The library provides a way to work with a subset of SQL in Kotlin programming language. SQLite is the only supported dialect right now.
+The library offers an approach to work with a subset of SQL in Kotlin programming language. The main goal of this project is to make database-related code safer and easier to evolve. At the moment SQLite is the only supported dialect.
 
-**WARNING: the library is in developement stage. The APIs are unstable and might be changed in the future.**
+**WARNING: the library is at the early development stage. The APIs are unstable and might be changed in the future.**
 
 ## Data Definition Language
 
-The first step is to define the tables by inheriting from the **Table** class.
+Database structure is defined by classes/objects inherited from the **Table** class. Tables are **not** domain model classes. Their purpose is to simply define relationships between tables and columns.
 
 ```kotlin
+object OrganizationTable : Table("organizations") {
+	val id = Column("id")
+	val name = Column("name")
+}
+
 object EmployeeTable : Table("employees") {
 	val id = Column("id")
 	val name = Column("name")
 	val organizationId = Column("organization_id")
 }
-
-object OrganizationTable : Table("organizations") {
-	val id = Column("id")
-	val name = Column("name")
-}
 ```
 
-**Statement** class is a starting point for writing any code. Resulting object can be turned into SQL by calling **.toString()** method. 
-
-```kotlin
-Statement.on(EmployeeTable).drop().toString() // DROP TABLE "organizations"
-```
+**Statement** class is the starting point for writing statements and queries. Resulting SQL can be obtained by terminating statement with either .create(), .drop(), .insert(), .select(), .update() or .delete() methods proceeded by .toString() call.
 
 ### CREATE TABLE statement
 
@@ -60,14 +56,14 @@ Data manipulation is the most powerfull and complex part of SQL. The library sup
 ### INSERT statement
 
 ```kotlin
-// INSERT INTO "organizations"("name", "organization_id") VALUES('?', '?')
+// INSERT INTO "organizations"("name", "organization_id") VALUES(?, ?)
 Statement.on(EmployeeTable)
-		.insert { e -> e.name("?") + e.organizationId("?") } // invoke syntax is used to set a value for the column
+		.insert { e -> e.name("?") + e.organizationId("?") }
 ```
 
 ### SELECT statement
 
-The library provides the following operators to compose queries (infix functions):
+The library provides the following operators to compose queries:
 * and
 * or
 * not
@@ -88,7 +84,7 @@ Statement.on(EmployeeTable)
 		.select { e -> e.id + e.name }
 ```
 
-Joining tables is also supported
+**JOINs** are also supported in select statements
 
 ```kotlin
 // SELECT ... FROM "organizations" JOIN "employees" ON ...
@@ -100,7 +96,7 @@ Statement.on(OrganizationTable)
 ### UPDATE statement
 
 ```kotlin
-// UPDATE "organizations" SET ... WHERE "id" = 1
+// UPDATE "organizations" SET "name" = ? WHERE "organizations"."id" = 1
 Statement.on(OrganizationTable)
 		.where { o -> o.id eq 1 }
 		.update { o -> o.name("?") }
@@ -108,15 +104,8 @@ Statement.on(OrganizationTable)
 
 ### DELETE statement
 ```kotlin
-// DELETE FROM "organizations" WHERE "id" = 0
+// DELETE FROM "organizations" WHERE "organizations"."id" = 0
 Statement.on(OrganizationTable)
 		.where { o -> o.id eq 0 }
 		.delete()
 ```
-
-## TODO
-* GROUP BY and HAVING clauses
-* JOIN on more than two tables
-* ALTER TABLE statement
-* Subqueries (research and prototyping)
-* Views (research)
