@@ -1,4 +1,4 @@
-# Kuery - safe SQL with Kotlin
+# Kuery - typesafe SQL in Kotlin
 
 The library offers an approach to work with a subset of SQL in Kotlin programming language. The main goal of this project is to make database-related code safer and easier to evolve. At the moment SQLite is the only supported dialect.
 
@@ -21,7 +21,12 @@ object EmployeeTable : Table("employees") {
 }
 ```
 
-**Statement** class is the starting point for writing statements and queries. Resulting SQL can be obtained by terminating statement with either .create(), .drop(), .insert(), .select(), .update() or .delete() methods proceeded by .toString() call.
+**Statement** class is the starting point for writing statements and queries. Resulting SQL can be obtained by terminating statement with either **.create()**, **.drop()**, **.insert()**, **.select()**, **.update()** or **.delete()** methods proceeded by **.toString()** call. An example of a **SELECT** statement might look like this:
+
+```kotlin
+val sql = Statement.on(EmployeeTable).where { e -> e.id eq 1 }.select { e -> e.name }.toString()
+print(sql) // SELECT "name" FROM "employees" WHERE "id" = 1
+```
 
 ### CREATE TABLE statement
 
@@ -51,7 +56,7 @@ Statement.on(EmployeeTable).drop()
 
 ## Data Manipulation Language
 
-Data manipulation is the most powerfull and complex part of SQL. The library supports insert, select, update and delete statements.
+Data manipulation is the most powerfull and complex part of SQL. The library supports **INSERT**, **SELECT**, **UPDATE** and **DELETE** statements.
 
 ### INSERT statement
 
