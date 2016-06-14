@@ -30,7 +30,7 @@ val sql = Statement.on(EmployeeTable).where { e -> e.id eq 1 }.select { e -> e.n
 print(sql) // SELECT "name" FROM "employees" WHERE "id" = 1
 ```
 
-There is also a shorter syntax for **INSERT**, **SELECT**, **UPDATE** and **DELETE** statements:
+There is also a shorter syntax for **INSERT**, **SELECT**, **UPDATE** and **DELETE** statements (see detailed documentation below):
 
 ```kotlin
 into(EmployeeTable).insert { ... } // INSERT INTO ...
@@ -41,22 +41,26 @@ from(EmployeeTable).delete { ... } // DELETE FROM ...
 
 ## Data Definition Language
 
+Many parts of data definition language are specific to SQL dialects. Example for SQLite:
+
 ### CREATE TABLE statement
 
 ```kotlin
-// CREATE TABLE "employees" ...
-Statement.on(EmployeeTable)
-    .create { e ->
-        e.id.integer().primaryKey(autoIncrement = true).notNull() +
-        e.name.text().unique().notNull() +
-        e.organizationId.integer()
-    }
+import com.nivabit.kuery.sqlite.*
 
 // CREATE TABLE "organizations" ...
 Statement.on(OrganizationTable)
     .create { e ->
-        e.id.integer().primaryKey(autoIncrement = true).notNull() +
+        e.id.integer().primaryKey(autoIncrement = true) +
         e.name.text().unique().notNull()
+    }
+    
+// CREATE TABLE "employees" ...
+Statement.on(EmployeeTable)
+    .create { e ->
+        e.id.integer().primaryKey(autoIncrement = true) +
+        e.name.text().unique().notNull() +
+        e.organizationId.integer().foreignKey(references = OrganizationTable.id)
     }
 ```
 
@@ -96,7 +100,7 @@ The library provides the following operators to compose queries:
 // SELECT "id", "name" FROM "organizations" WHERE ...
 from(EmployeeTable)
     .where { e -> (e.organizationId ne null) and (e.name eq "''") }
-    .orderBy { e -> e.name + e.id.desc }
+    .orderBy { e -> e.name.asc + e.id.desc }
     .limit { 10 }
     .offset { 10 }
     .select { e -> e.id + e.name }
