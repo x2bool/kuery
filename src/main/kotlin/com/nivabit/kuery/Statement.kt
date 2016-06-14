@@ -1,9 +1,6 @@
 package com.nivabit.kuery
 
-import com.nivabit.kuery.Table
-import com.nivabit.kuery.ddl.CreateTableStatement
-import com.nivabit.kuery.ddl.Definition
-import com.nivabit.kuery.ddl.DropTableStatement
+import com.nivabit.kuery.ddl.*
 import com.nivabit.kuery.dml.*
 
 class Statement<T: Table> {
@@ -22,48 +19,60 @@ class Statement<T: Table> {
         return Join2Clause(this, table2, JoinType.OUTER)
     }
 
-    inline fun where(predicate: (T) -> Expression<Boolean>): WhereClause<T> {
-        return WhereClause(this, predicate(table))
+    inline fun where(predicate: (T) -> Predicate): WhereClause<T> {
+        return WhereClause(predicate(table), this)
     }
 
-    inline fun orderBy(order: (T) -> Ordering): OrderClause<T> {
-        return OrderClause(this, null, order(table))
+    inline fun orderBy(order: (T) -> Iterable<Ordering>): OrderClause<T> {
+        return OrderClause(order(table), this, null)
     }
 
     inline fun limit(limit: () -> String): LimitClause<T> {
         return LimitClause(
+                limit(),
                 this,
                 null,
-                null,
-                limit())
+                null)
     }
 
     inline fun offset(offset: () -> String): OffsetClause<T> {
         return OffsetClause(
+                offset(),
+                limit { "-1" },
                 this,
                 null,
-                null,
-                limit { "-1" },
-                offset())
+                null)
     }
 
-    inline fun insert(insert: (T) -> Iterable<ColumnValue>): InsertStatement<T> {
+    inline fun insert(insert: (T) -> Iterable<Assignment>): InsertStatement<T> {
         return InsertStatement(insert(table), this)
     }
 
-    inline fun select(projection: (T) -> Projection): SelectStatement<T> {
-        return SelectStatement(projection(table), this)
+    inline fun select(projection: (T) -> Iterable<Projection>): SelectStatement<T> {
+        return SelectStatement(
+                projection(table),
+                this,
+                null,
+                null,
+                null,
+                null)
     }
 
-    inline fun update(update: (T) -> Iterable<ColumnValue>): UpdateStatement<T> {
-        return UpdateStatement(update(table), this)
+    inline fun update(update: (T) -> Iterable<Assignment>): UpdateStatement<T> {
+        return UpdateStatement(
+                update(table),
+                this,
+                null)
     }
 
     inline fun delete(): DeleteStatement<T> {
-        return DeleteStatement(this)
+        return DeleteStatement(
+                this,
+                null
+        )
     }
 
-    inline fun create(definition: (T) -> Definition): CreateTableStatement<T> {
+    inline fun create(definition: (T) -> Iterable<Definition>): CreateTableStatement<T> {
         return CreateTableStatement(definition(table), this)
     }
 
@@ -80,4 +89,12 @@ class Statement<T: Table> {
             return Statement(table)
         }
     }
+}
+
+inline fun <T: Table> from(table: T): Statement<T> {
+    return Statement.on(table)
+}
+
+inline fun <T: Table> into(table: T): Statement<T> {
+    return Statement.on(table)
 }

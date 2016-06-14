@@ -1,13 +1,17 @@
 package com.nivabit.kuery.ddl
 
-import com.nivabit.kuery.Statement
-import com.nivabit.kuery.Table
+import com.nivabit.kuery.*
+import com.nivabit.kuery.sqlite.*
 
 class CreateTableStatement<T: Table>(
-        val definition: Definition,
+        val definitions: Iterable<Definition>,
         val subject: Statement<T>) {
 
+    fun toString(dialect: Dialect): String {
+        return dialect.build(this)
+    }
+
     override fun toString(): String {
-        return "CREATE TABLE \"${subject.table}\" (${definition.definition})"
+        return toString(SQLiteDialect)
     }
 }

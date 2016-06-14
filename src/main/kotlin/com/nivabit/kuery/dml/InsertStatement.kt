@@ -1,15 +1,17 @@
 package com.nivabit.kuery.dml
 
-import com.nivabit.kuery.Statement
-import com.nivabit.kuery.Table
+import com.nivabit.kuery.*
+import com.nivabit.kuery.sqlite.*
 
 class InsertStatement<T: Table>(
-        val values: Iterable<ColumnValue>,
+        val assignments: Iterable<Assignment>,
         val subject: Statement<T>) {
 
+    fun toString(dialect: Dialect): String {
+        return dialect.build(this)
+    }
+
     override fun toString(): String {
-        var sql = "INSERT INTO ${subject.table}(${values.map { "\"${it.column.name}\"" }.joinToString()})"
-        sql += " VALUES (${values.map { "${it.value}" }.joinToString()})"
-        return sql
+        return toString(SQLiteDialect)
     }
 }

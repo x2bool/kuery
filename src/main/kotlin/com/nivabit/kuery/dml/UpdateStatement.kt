@@ -1,19 +1,18 @@
 package com.nivabit.kuery.dml
 
-import com.nivabit.kuery.Statement
-import com.nivabit.kuery.Table
+import com.nivabit.kuery.*
+import com.nivabit.kuery.sqlite.*
 
 class UpdateStatement<T: Table>(
-        val values: Iterable<ColumnValue>,
+        val assignments: Iterable<Assignment>,
         val subject: Statement<T>,
-        val whereClause: WhereClause<T>? = null) {
+        val whereClause: WhereClause<T>?) {
+
+    fun toString(dialect: Dialect): String {
+        return dialect.build(this)
+    }
 
     override fun toString(): String {
-        var sql = "UPDATE ${subject.table}"
-
-        sql += " SET ${values.map { "\"${it.column.name}\" = ${it.value}" }.joinToString()}"
-        if (whereClause != null) sql += " ${whereClause}"
-
-        return sql
+        return toString(SQLiteDialect)
     }
 }
