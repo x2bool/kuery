@@ -26,8 +26,7 @@ object EmployeeTable : Table("employees") {
 **Statement** class is the starting point for writing statements and queries. Resulting SQL can be obtained by terminating statement with either **.create()**, **.drop()**, **.insert()**, **.select()**, **.update()** or **.delete()** methods proceeded by **.toString()** call. An example of a **SELECT** statement might look like this:
 
 ```kotlin
-val sql = Statement.on(EmployeeTable).where { e -> e.id eq 1 }.select { e -> e.name }.toString()
-print(sql) // SELECT "name" FROM "employees" WHERE "id" = 1
+val selectStatement = Statement.on(EmployeeTable).where { e -> e.id eq 1 }.select { e -> e.name }
 ```
 
 There is also a shorter syntax for **INSERT**, **SELECT**, **UPDATE** and **DELETE** statements (see detailed documentation below):
@@ -39,13 +38,23 @@ from(EmployeeTable).update { ... } // UPDATE ...
 from(EmployeeTable).delete { ... } // DELETE FROM ...
 ```
 
+**Dialects** are responsible for converting statements into actual SQL:
+
+```kotlin
+import com.nivabit.kuery.sqlite.*
+
+val sql = selectStatement.toString(SQLiteDialect)
+print(sql) // SELECT "name" FROM "employees" WHERE "id" = 1
+```
+
 ## Data Definition Language
 
-Many parts of data definition language are specific to SQL dialects. Example for SQLite:
+Many parts of data definition language are specific to SQL dialects. An example for SQLite might look like this:
 
 ### CREATE TABLE statement
 
 ```kotlin
+import com.nivabit.kuery.*
 import com.nivabit.kuery.sqlite.*
 
 // CREATE TABLE "organizations" ...
