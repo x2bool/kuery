@@ -1,7 +1,6 @@
 package com.nivabit.kuery.dml
 
 import com.nivabit.kuery.*
-import com.nivabit.kuery.sqlite.SQLiteDialect
 
 class SelectStatement<T: Table>(
         val projection: Iterable<Projection>,
@@ -13,10 +12,6 @@ class SelectStatement<T: Table>(
 
     fun toString(dialect: Dialect): String {
         return dialect.build(this)
-    }
-
-    override fun toString(): String {
-        return toString(SQLiteDialect)
     }
 }
 
@@ -31,10 +26,6 @@ class Select2Statement<T: Table, T2: Table>(
     fun toString(dialect: Dialect): String {
         return dialect.build(this)
     }
-
-    override fun toString(): String {
-        return toString(SQLiteDialect)
-    }
 }
 
 class Select3Statement<T: Table, T2: Table, T3: Table>(
@@ -47,10 +38,6 @@ class Select3Statement<T: Table, T2: Table, T3: Table>(
 
     fun toString(dialect: Dialect): String {
         return dialect.build(this)
-    }
-
-    override fun toString(): String {
-        return toString(SQLiteDialect)
     }
 }
 
@@ -65,9 +52,5 @@ class Select4Statement<T: Table, T2: Table, T3: Table, T4: Table>(
 
     fun toString(dialect: Dialect): String {
         return dialect.build(this)
-    }
-
-    override fun toString(): String {
-        return toString(SQLiteDialect)
     }
 }

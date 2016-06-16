@@ -10,6 +10,10 @@ buildscript {
 
 apply plugin: 'kotlin'
 
+sourceSets {
+    main.kotlin.srcDirs += 'src'
+}
+
 repositories {
   mavenCentral()
 }

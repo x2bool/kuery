@@ -1,0 +1,2 @@
+include ':core'
+project(':core').projectDir = new File('../core')

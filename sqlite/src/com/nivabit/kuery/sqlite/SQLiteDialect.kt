@@ -45,16 +45,16 @@ object SQLiteDialect : Dialect {
         var sql = "SELECT ${buildProjection(statement.projection, false)} FROM \"${statement.subject.table}\""
 
         if (statement.whereClause != null)
-            sql += " WHERE ${buildPredicate(statement.whereClause.predicate, false)}"
+            sql += " WHERE ${buildPredicate(statement.whereClause!!.predicate, false)}"
 
         if (statement.orderClause != null)
-            sql += " ORDER BY ${buildOrdering(statement.orderClause.orderings, false)}"
+            sql += " ORDER BY ${buildOrdering(statement.orderClause!!.orderings, false)}"
 
         if (statement.limitClause != null)
-            sql += " LIMIT ${statement.limitClause.limit}"
+            sql += " LIMIT ${statement.limitClause!!.limit}"
 
         if (statement.offsetClause != null)
-            sql += " OFFSET ${statement.offsetClause.offset}"
+            sql += " OFFSET ${statement.offsetClause!!.offset}"
 
         return sql
     }
@@ -68,16 +68,16 @@ object SQLiteDialect : Dialect {
         sql += " ON ${buildPredicate(statement.joinOn2Clause.condition, true)}"
 
         if (statement.where2Clause != null)
-            sql += " WHERE ${buildPredicate(statement.where2Clause.predicate, true)}"
+            sql += " WHERE ${buildPredicate(statement.where2Clause!!.predicate, true)}"
 
         if (statement.order2Clause != null)
-            sql += " ORDER BY ${buildOrdering(statement.order2Clause.orderings, true)}"
+            sql += " ORDER BY ${buildOrdering(statement.order2Clause!!.orderings, true)}"
 
         if (statement.limit2Clause != null)
-            sql += " LIMIT ${statement.limit2Clause.limit}"
+            sql += " LIMIT ${statement.limit2Clause!!.limit}"
 
         if (statement.offset2Clause != null)
-            sql += " OFFSET ${statement.offset2Clause.offset}"
+            sql += " OFFSET ${statement.offset2Clause!!.offset}"
 
         return sql
     }
@@ -94,16 +94,16 @@ object SQLiteDialect : Dialect {
         sql += " ON ${buildPredicate(statement.joinOn3Clause.condition, true)}"
 
         if (statement.where3Clause != null)
-            sql += " WHERE ${buildPredicate(statement.where3Clause.predicate, true)}"
+            sql += " WHERE ${buildPredicate(statement.where3Clause!!.predicate, true)}"
 
         if (statement.order3Clause != null)
-            sql += " ORDER BY ${buildOrdering(statement.order3Clause.orderings, true)}"
+            sql += " ORDER BY ${buildOrdering(statement.order3Clause!!.orderings, true)}"
 
         if (statement.limit3Clause != null)
-            sql += " LIMIT ${statement.limit3Clause.limit}"
+            sql += " LIMIT ${statement.limit3Clause!!.limit}"
 
         if (statement.offset3Clause != null)
-            sql += " OFFSET ${statement.offset3Clause.offset}"
+            sql += " OFFSET ${statement.offset3Clause!!.offset}"
 
         return sql
     }
@@ -123,16 +123,16 @@ object SQLiteDialect : Dialect {
         sql += " ON ${buildPredicate(statement.joinOn4Clause.condition, true)}"
 
         if (statement.where4Clause != null)
-            sql += " WHERE ${buildPredicate(statement.where4Clause.predicate, true)}"
+            sql += " WHERE ${buildPredicate(statement.where4Clause!!.predicate, true)}"
 
         if (statement.order4Clause != null)
-            sql += " ORDER BY ${buildOrdering(statement.order4Clause.orderings, true)}"
+            sql += " ORDER BY ${buildOrdering(statement.order4Clause!!.orderings, true)}"
 
         if (statement.limit4Clause != null)
-            sql += " LIMIT ${statement.limit4Clause.limit}"
+            sql += " LIMIT ${statement.limit4Clause!!.limit}"
 
         if (statement.offset4Clause != null)
-            sql += " OFFSET ${statement.offset4Clause.offset}"
+            sql += " OFFSET ${statement.offset4Clause!!.offset}"
 
         return sql
     }
@@ -149,7 +149,7 @@ object SQLiteDialect : Dialect {
         sql += " ${statement.assignments.map { "${buildShortKey(it.key)} = ${buildValue(it.value)}" }.joinToString(", ")}"
 
         if (statement.whereClause != null) {
-            sql += " WHERE ${buildPredicate(statement.whereClause.predicate, false)}"
+            sql += " WHERE ${buildPredicate(statement.whereClause!!.predicate, false)}"
         }
 
         return sql
@@ -159,7 +159,7 @@ object SQLiteDialect : Dialect {
         var sql = "DELETE FROM \"${statement.subject.table}\""
 
         if (statement.whereClause != null) {
-            sql += " WHERE ${buildPredicate(statement.whereClause.predicate, false)}"
+            sql += " WHERE ${buildPredicate(statement.whereClause!!.predicate, false)}"
         }
 
         return sql
