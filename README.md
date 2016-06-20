@@ -1,6 +1,6 @@
 # Kuery - typesafe SQL in Kotlin
 
-The library offers an approach to work with a subset of SQL in Kotlin programming language. The main goal of this project is to make database-related code safer and easier to evolve. At the moment SQLite is the only supported dialect.
+The library is a safe(r) alternative to plain text SQL. The main goal of this project is to make database-related code easier to develop and evolve. The project uses some of the Kotlin language features to achieve a certain level of type safety.
 
 **WARNING: the library is at an early development stage. The APIs are unstable and might be changed in the future.**
 
@@ -23,27 +23,19 @@ object EmployeeTable : Table("employees") {
 }
 ```
 
-**Statement** class is the starting point for writing statements and queries. Resulting SQL can be obtained by terminating statement with either **.create()**, **.drop()**, **.insert()**, **.select()**, **.update()** or **.delete()** methods proceeded by **.toString()** call. An example of a **SELECT** statement might look like this:
-
-```kotlin
-val selectStatement = Statement.on(EmployeeTable).where { e -> e.id eq 1 }.select { e -> e.name }
-```
-
-There is also a shorter syntax for **INSERT**, **SELECT**, **UPDATE** and **DELETE** statements (see detailed documentation below):
-
-```kotlin
-into(EmployeeTable).insert { ... } // INSERT INTO ...
-from(EmployeeTable).select { ... } // SELECT * FROM ...
-from(EmployeeTable).update { ... } // UPDATE ...
-from(EmployeeTable).delete { ... } // DELETE FROM ...
-```
+**Statements** are the building blocks of the library. A statement usually starts with one of the following function calls:
+* over(table) - used for **CREATE TABLE** and **DROP TABLE** statements
+* into(table) - used for **INSERT** statements
+* from(table) - used for **SELECT**, **UPDATE** and **DELETE** statements
 
 **Dialects** are responsible for converting statements into actual SQL:
 
 ```kotlin
+import com.nivabit.kuery.*
 import com.nivabit.kuery.sqlite.*
 
-val sql = selectStatement.toString(SQLiteDialect)
+val statement = from(EmployeeTable).where { e -> e.id eq 1 }.select { e -> e.name }
+val sql = statement.toString(SQLiteDialect)
 print(sql) // SELECT "name" FROM "employees" WHERE "id" = 1
 ```
 
@@ -58,14 +50,14 @@ import com.nivabit.kuery.*
 import com.nivabit.kuery.sqlite.*
 
 // CREATE TABLE "organizations" ...
-Statement.on(OrganizationTable)
+over(OrganizationTable)
     .create { e ->
         e.id.integer().primaryKey(autoIncrement = true) +
         e.name.text().unique().notNull()
     }
     
 // CREATE TABLE "employees" ...
-Statement.on(EmployeeTable)
+over(EmployeeTable)
     .create { e ->
         e.id.integer().primaryKey(autoIncrement = true) +
         e.name.text().unique().notNull() +
@@ -77,7 +69,7 @@ Statement.on(EmployeeTable)
 
 ```kotlin
 // DROP TABLE "employees"
-Statement.on(EmployeeTable).drop()
+over(EmployeeTable).drop()
 ```
 
 ## Data Manipulation Language
