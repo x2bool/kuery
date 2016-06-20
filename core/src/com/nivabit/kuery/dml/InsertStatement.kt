@@ -4,7 +4,7 @@ import com.nivabit.kuery.*
 
 class InsertStatement<T: Table>(
         val assignments: Iterable<Assignment>,
-        val subject: Statement<T>) {
+        val subject: Subject<T>) {
 
     fun toString(dialect: Dialect): String {
         return dialect.build(this)

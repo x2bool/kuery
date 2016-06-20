@@ -4,7 +4,7 @@ import com.nivabit.kuery.*
 
 class OrderClause<T: Table>(
         val orderings: Iterable<Ordering>,
-        val subject: Statement<T>,
+        val subject: Subject<T>,
         val whereClause: WhereClause<T>?) {
 
     inline fun limit(limit: () -> Any): LimitClause<T> {

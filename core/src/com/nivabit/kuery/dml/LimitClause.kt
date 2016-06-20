@@ -4,7 +4,7 @@ import com.nivabit.kuery.*
 
 class LimitClause<T: Table>(
         val limit: Any,
-        val subject: Statement<T>,
+        val subject: Subject<T>,
         val whereClause: WhereClause<T>?,
         val orderClause: OrderClause<T>?) {
 

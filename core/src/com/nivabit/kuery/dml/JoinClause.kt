@@ -3,7 +3,7 @@ package com.nivabit.kuery.dml
 import com.nivabit.kuery.*
 
 class Join2Clause<T: Table, T2: Table>(
-        val subject: Statement<T>,
+        val subject: Subject<T>,
         val table2: T2,
         val type: JoinType = JoinType.INNER) {
 
@@ -19,7 +19,7 @@ class Join2Clause<T: Table, T2: Table>(
 }
 
 class JoinOn2Clause<T: Table, T2: Table>(
-        val subject: Statement<T>,
+        val subject: Subject<T>,
         val table2: T2,
         val type: JoinType,
         val condition: Predicate) {

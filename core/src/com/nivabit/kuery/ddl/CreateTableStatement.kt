@@ -4,7 +4,7 @@ import com.nivabit.kuery.*
 
 class CreateTableStatement<T: Table>(
         val definitions: Iterable<Definition>,
-        val subject: Statement<T>) {
+        val subject: Subject<T>) {
 
     fun toString(dialect: Dialect): String {
         return dialect.build(this)

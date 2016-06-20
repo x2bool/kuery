@@ -5,7 +5,7 @@ import com.nivabit.kuery.*
 class OffsetClause<T: Table>(
         val offset: Any,
         val limit: LimitClause<T>,
-        val subject: Statement<T>,
+        val subject: Subject<T>,
         val whereClause: WhereClause<T>?,
         val orderClause: OrderClause<T>?) {
 

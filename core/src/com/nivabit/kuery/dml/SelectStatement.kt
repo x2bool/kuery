@@ -4,7 +4,7 @@ import com.nivabit.kuery.*
 
 class SelectStatement<T: Table>(
         val projection: Iterable<Projection>,
-        val subject: Statement<T>,
+        val subject: Subject<T>,
         val whereClause: WhereClause<T>?,
         val orderClause: OrderClause<T>?,
         val limitClause: LimitClause<T>?,

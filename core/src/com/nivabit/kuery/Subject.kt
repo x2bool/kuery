@@ -3,7 +3,7 @@ package com.nivabit.kuery
 import com.nivabit.kuery.ddl.*
 import com.nivabit.kuery.dml.*
 
-open class Statement<T: Table> {
+open class Subject<T: Table> {
 
     val table: T
 
@@ -15,7 +15,7 @@ open class Statement<T: Table> {
         return table.toString()
     }
 
-    class Over<T: Table>(table: T) : Statement<T>(table) {
+    class Over<T: Table>(table: T) : Subject<T>(table) {
         inline fun create(definition: (T) -> Iterable<Definition>): CreateTableStatement<T> {
             return CreateTableStatement(definition(table), this)
         }
@@ -25,9 +25,7 @@ open class Statement<T: Table> {
         }
     }
 
-    class From<T: Table>(table: T) : Statement<T>(table) {
-
-
+    class From<T: Table>(table: T) : Subject<T>(table) {
         inline fun <T2: Table> join(table2: T2): Join2Clause<T, T2> {
             return Join2Clause(this, table2)
         }
@@ -86,21 +84,21 @@ open class Statement<T: Table> {
         }
     }
 
-    class Into<T: Table>(table: T) : Statement<T>(table) {
+    class Into<T: Table>(table: T) : Subject<T>(table) {
         inline fun insert(insert: (T) -> Iterable<Assignment>): InsertStatement<T> {
             return InsertStatement(insert(table), this)
         }
     }
 }
 
-inline fun <T: Table> over(table: T): Statement.Over<T> {
-    return Statement.Over(table)
+inline fun <T: Table> over(table: T): Subject.Over<T> {
+    return Subject.Over(table)
 }
 
-inline fun <T: Table> from(table: T): Statement.From<T> {
-    return Statement.From(table)
+inline fun <T: Table> from(table: T): Subject.From<T> {
+    return Subject.From(table)
 }
 
-inline fun <T: Table> into(table: T): Statement.Into<T> {
-    return Statement.Into(table)
+inline fun <T: Table> into(table: T): Subject.Into<T> {
+    return Subject.Into(table)
 }

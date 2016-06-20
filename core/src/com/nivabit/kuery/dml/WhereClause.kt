@@ -4,7 +4,7 @@ import com.nivabit.kuery.*
 
 class WhereClause<T: Table>(
         val predicate: Predicate,
-        val subject: Statement<T>) {
+        val subject: Subject<T>) {
 
     inline fun orderBy(order: (T) -> Iterable<Ordering>): OrderClause<T> {
         return OrderClause(order(subject.table), subject, this)
