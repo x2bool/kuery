@@ -64,6 +64,7 @@ object SQLiteDialect : Dialect {
 
         sql += " FROM \"${statement.joinOn2Clause.subject.table}\""
 
+        if (statement.joinOn2Clause.type == JoinType.OUTER) sql += " OUTER"
         sql += " JOIN \"${statement.joinOn2Clause.table2}\""
         sql += " ON ${buildPredicate(statement.joinOn2Clause.condition, true)}"
 
@@ -87,9 +88,11 @@ object SQLiteDialect : Dialect {
 
         sql += " FROM \"${statement.joinOn3Clause.joinOn2Clause.subject.table}\""
 
+        if (statement.joinOn3Clause.joinOn2Clause.type == JoinType.OUTER) sql += " OUTER"
         sql += " JOIN \"${statement.joinOn3Clause.joinOn2Clause.table2}\""
         sql += " ON ${buildPredicate(statement.joinOn3Clause.joinOn2Clause.condition, true)}"
 
+        if (statement.joinOn3Clause.type == JoinType.OUTER) sql += " OUTER"
         sql += " JOIN \"${statement.joinOn3Clause.table3}\""
         sql += " ON ${buildPredicate(statement.joinOn3Clause.condition, true)}"
 
@@ -113,12 +116,15 @@ object SQLiteDialect : Dialect {
 
         sql += " FROM \"${statement.joinOn4Clause.joinOn3Clause.joinOn2Clause.subject.table}\""
 
+        if (statement.joinOn4Clause.joinOn3Clause.joinOn2Clause.type == JoinType.OUTER) sql += " OUTER"
         sql += " JOIN \"${statement.joinOn4Clause.joinOn3Clause.joinOn2Clause.table2}\""
         sql += " ON ${buildPredicate(statement.joinOn4Clause.joinOn3Clause.joinOn2Clause.condition, true)}"
 
+        if (statement.joinOn4Clause.joinOn3Clause.type == JoinType.OUTER) sql += " OUTER"
         sql += " JOIN \"${statement.joinOn4Clause.joinOn3Clause.table3}\""
         sql += " ON ${buildPredicate(statement.joinOn4Clause.joinOn3Clause.condition, true)}"
 
+        if (statement.joinOn4Clause.type == JoinType.OUTER) sql += " OUTER"
         sql += " JOIN \"${statement.joinOn4Clause.table4}\""
         sql += " ON ${buildPredicate(statement.joinOn4Clause.condition, true)}"
 
