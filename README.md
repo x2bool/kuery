@@ -1,6 +1,6 @@
-# Kuery - typesafe SQL in Kotlin
+# Kuery - Strongly typed SQL in Kotlin
 
-The library is a safe(r) alternative to plain text SQL. The main goal of this project is to make database-related code easier to develop and evolve. The project uses some of the Kotlin language features to achieve a certain level of type safety.
+The library is a strongly typed alternative to plain text SQL. The main goal of this project is to make database-related code easier to develop and evolve. The project uses some of the Kotlin language features to achieve a certain level of type safety.
 
 **WARNING: the library is at an early development stage. The APIs are unstable and might be changed in the future.**
 
