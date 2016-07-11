@@ -15,6 +15,8 @@ ext.group_id = 'com.nivabit.kuery'
 ext.version_name = '0.0.1-alpha1'
 
 allprojects {
+    apply plugin: 'maven'
+
     repositories {
         jcenter()
         mavenCentral()

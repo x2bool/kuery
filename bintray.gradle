@@ -19,10 +19,12 @@ def projDescription = 'The library is a strongly typed alternative to plain text
 
 project.ext.set("bintray_repo", "")
 
-Properties properties = new Properties()
-properties.load(new FileInputStream("${rootProject.projectDir}/maven.properties"))
-properties.each { prop ->
-    project.ext.set(prop.key, prop.value)
+if (file("${rootProject.projectDir}/maven.properties").exists()) {
+    Properties properties = new Properties()
+    properties.load(new FileInputStream("${rootProject.projectDir}/maven.properties"))
+    properties.each { prop ->
+        project.ext.set(prop.key, prop.value)
+    }
 }
 
 publishing {
@@ -45,6 +47,9 @@ publishing {
     repositories {
         maven {
             url "$bintray_repo"
+        }
+        maven {
+            url "https://jitpack.io"
         }
     }
 }
