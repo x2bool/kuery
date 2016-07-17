@@ -1,0 +1,79 @@
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+defaultTasks 'jar'
+
+task sourcesJar(type: Jar, dependsOn: project.classes) {
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: project.javadoc) {
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar, javadocJar
+}
+
+def projDescription = 'The library is a strongly typed alternative to plain text SQL. Powered by Kotlin.'
+
+project.ext.set("bintray_repo", "")
+
+if (file("${rootProject.projectDir}/maven.properties").exists()) {
+    Properties properties = new Properties()
+    properties.load(new FileInputStream("${rootProject.projectDir}/maven.properties"))
+    properties.each { prop ->
+        project.ext.set(prop.key, prop.value)
+    }
+}
+
+publishing {
+    publications {
+        "${project.name}"(MavenPublication) {
+            pom.withXml {
+                asNode().appendNode('description', projDescription)
+            }
+
+            groupId rootProject.group_id
+            artifactId project.name
+            version rootProject.ext.version_name
+
+            artifact sourcesJar { classifier = 'sources' }
+            artifact javadocJar { classifier = 'javadoc' }
+
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "$bintray_repo"
+        }
+        maven {
+            url "https://jitpack.io"
+        }
+    }
+}
+
+bintray {
+    user = project.ext.properties.containsKey("bintray_user") ? project.ext.get("bintray_user") : System.getenv('BINTRAY_USER')
+    key = project.ext.properties.containsKey("bintray_apikey") ? project.ext.get("bintray_apikey") : System.getenv('BINTRAY_API_KEY')
+
+    publications  = [project.name]
+    pkg {
+        repo = 'maven'
+        name = 'kuery'
+        userOrg = user
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/x2bool/kuery.git'
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            name = rootProject.ext.version_name
+            desc = projDescription
+            released = new java.util.Date()
+            vcsTag = rootProject.ext.version_name
+        }
+    }
+}
+
+bintrayUpload.dependsOn "generatePomFileFor${project.name.capitalize()}Publication"
