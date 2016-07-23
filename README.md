@@ -1,8 +1,35 @@
-# Kuery - Strongly typed SQL in Kotlin
+# Kuery - strongly typed SQL in Kotlin
 
 The library is a strongly typed alternative to plain text SQL. The main goal of this project is to make database-related code easier to develop and evolve. The project uses some of the Kotlin language features to achieve a certain level of type safety.
 
 **WARNING: the library is at an early development stage. The APIs are unstable and might be changed in the future.**
+
+## Download
+
+Maven:
+
+```
+<dependency>
+  <groupId>com.nivabit.kuery</groupId>
+  <artifactId>core</artifactId>
+  <version>0.0.1-alpha1</version>
+  <type>pom</type>
+</dependency>
+
+<dependency>
+  <groupId>com.nivabit.kuery</groupId>
+  <artifactId>sqlite</artifactId>
+  <version>0.0.1-alpha1</version>
+  <type>pom</type>
+</dependency>
+```
+
+Gradle:
+
+```
+compile 'com.nivabit.kuery:core:0.0.1-alpha1'
+compile 'com.nivabit.kuery:sqlite:0.0.1-alpha1'
+```
 
 ## Foundation
 
