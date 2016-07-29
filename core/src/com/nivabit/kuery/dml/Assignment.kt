@@ -1,11 +1,13 @@
 package com.nivabit.kuery.dml
 
+import com.nivabit.kuery.Table
+
 interface Assignment {
 
-    val key: Any
+    val column: Table.Column
     val value: Any?
 
-    open class Value(override val key: Any, override val value: Any?) : Assignment, Iterable<Assignment> {
+    open class Value(override val column: Table.Column, override val value: Any?) : Assignment, Iterable<Assignment> {
         override fun iterator(): Iterator<Assignment> {
             return object : Iterator<Assignment> {
                 var valid = true
