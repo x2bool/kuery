@@ -4,6 +4,13 @@ The library is a strongly typed alternative to plain text SQL. The main goal of 
 
 **WARNING: the library is at an early development stage. The APIs are unstable and might be changed in the future.**
 
+## Why?
+
+* SQL-like syntax. Use language constructions you already know.
+* Strongly typed DSL makes it harder to make mistakes. Some of the most common errors are catched at compile time.
+* IDE's assist in code editing.
+* Easier and safer refactoring/renaming.
+
 ## Download
 
 Maven:
