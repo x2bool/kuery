@@ -41,18 +41,18 @@ class SQLiteDefinition(column: Table.Column, val meta: SQLiteDefinition.Meta) : 
     class NotNullConstraint()
 }
 
-fun Table.Column.integer(): SQLiteDefinition {
-    return SQLiteDefinition(this, SQLiteDefinition.Meta(type = "INTEGER"))
+fun integer(column: Table.Column): SQLiteDefinition {
+    return SQLiteDefinition(column, SQLiteDefinition.Meta(type = "INTEGER"))
 }
 
-fun Table.Column.real(): SQLiteDefinition {
-    return SQLiteDefinition(this, SQLiteDefinition.Meta(type = "REAL"))
+fun real(column: Table.Column): SQLiteDefinition {
+    return SQLiteDefinition(column, SQLiteDefinition.Meta(type = "REAL"))
 }
 
-fun Table.Column.text(): SQLiteDefinition {
-    return SQLiteDefinition(this, SQLiteDefinition.Meta(type = "TEXT"))
+fun text(column: Table.Column): SQLiteDefinition {
+    return SQLiteDefinition(column, SQLiteDefinition.Meta(type = "TEXT"))
 }
 
-fun Table.Column.blob(): SQLiteDefinition {
-    return SQLiteDefinition(this, SQLiteDefinition.Meta(type = "BLOB"))
+fun blob(column: Table.Column): SQLiteDefinition {
+    return SQLiteDefinition(column, SQLiteDefinition.Meta(type = "BLOB"))
 }
