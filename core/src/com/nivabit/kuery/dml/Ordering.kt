@@ -25,12 +25,12 @@ interface Ordering {
             return list.iterator()
         }
 
-        operator fun plus(ordering: Ordering): List {
+        operator fun rangeTo(ordering: Ordering): List {
             return List(list + ordering)
         }
     }
 
-    operator fun plus(ordering: Ordering): List {
+    operator fun rangeTo(ordering: Ordering): List {
         return List(listOf(this, ordering))
     }
 

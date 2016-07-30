@@ -27,12 +27,12 @@ interface Definition {
             return list.iterator()
         }
 
-        operator fun plus(definition: Definition): List {
+        operator fun rangeTo(definition: Definition): List {
             return List(list + definition)
         }
     }
 
-    operator fun plus(definition: Definition): List {
+    operator fun rangeTo(definition: Definition): List {
         return List(listOf(this, definition))
     }
 

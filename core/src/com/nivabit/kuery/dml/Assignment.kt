@@ -27,12 +27,12 @@ interface Assignment {
             return list.iterator()
         }
 
-        operator fun plus(assignment: Assignment): List {
+        operator fun rangeTo(assignment: Assignment): List {
             return List(list + assignment)
         }
     }
 
-    operator fun plus(assignment: Assignment): List {
+    operator fun rangeTo(assignment: Assignment): List {
         return List(listOf(this, assignment))
     }
 

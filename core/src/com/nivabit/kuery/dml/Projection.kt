@@ -24,12 +24,12 @@ interface Projection {
             return list.iterator()
         }
 
-        operator fun plus(projection: Projection): List {
+        operator fun rangeTo(projection: Projection): List {
             return List(list + projection)
         }
     }
 
-    operator fun plus(projection: Projection): List {
+    operator fun rangeTo(projection: Projection): List {
         return List(listOf(this, projection))
     }
 
