@@ -4,39 +4,12 @@ The library is a strongly typed alternative to plain text SQL. The main goal of 
 
 **WARNING: the library is at an early development stage. The APIs are unstable and might be changed in the future.**
 
-## Why?
+## Features
 
-* SQL-like syntax. Use language constructions you already know.
+* SQL-like syntax. Use language constructions you already know. Designed to cover the most common SQL features.
 * Strongly typed DSL makes it harder to make mistakes. Some of the most common errors are catched at compile time.
 * IDE's assist in code editing.
 * Easier and safer refactoring/renaming.
-
-## Download
-
-Maven:
-
-```
-<dependency>
-  <groupId>com.nivabit.kuery</groupId>
-  <artifactId>core</artifactId>
-  <version>0.0.1-alpha1</version>
-  <type>pom</type>
-</dependency>
-
-<dependency>
-  <groupId>com.nivabit.kuery</groupId>
-  <artifactId>sqlite</artifactId>
-  <version>0.0.1-alpha1</version>
-  <type>pom</type>
-</dependency>
-```
-
-Gradle:
-
-```
-compile 'com.nivabit.kuery:core:0.0.1-alpha1'
-compile 'com.nivabit.kuery:sqlite:0.0.1-alpha1'
-```
 
 ## Foundation
 
@@ -85,17 +58,17 @@ import com.nivabit.kuery.sqlite.*
 
 // CREATE TABLE "organizations" ...
 over(OrganizationTable)
-    .create { e ->
-        e.id.integer().primaryKey(autoIncrement = true) +
-        e.name.text().unique().notNull()
+    .create {
+        it.id.integer().primaryKey(autoIncrement = true) +
+        it.name.text().unique().notNull()
     }
     
 // CREATE TABLE "employees" ...
 over(EmployeeTable)
-    .create { e ->
-        e.id.integer().primaryKey(autoIncrement = true) +
-        e.name.text().unique().notNull() +
-        e.organizationId.integer().foreignKey(references = OrganizationTable.id)
+    .create {
+        it.id.integer().primaryKey(autoIncrement = true) +
+        it.name.text().unique().notNull() +
+        it.organizationId.integer().foreignKey(references = OrganizationTable.id)
     }
 ```
 
@@ -153,7 +126,7 @@ from(OrganizationTable)
 ### UPDATE statement
 
 ```kotlin
-// UPDATE "organizations" SET "name" = ? WHERE "organizations"."id" = 1
+// UPDATE "organizations" SET "name" = ? WHERE "id" = 1
 from(OrganizationTable)
     .where { o -> o.id eq 1 }
     .update { o -> o.name("?") }
@@ -161,8 +134,39 @@ from(OrganizationTable)
 
 ### DELETE statement
 ```kotlin
-// DELETE FROM "organizations" WHERE "organizations"."id" = 0
+// DELETE FROM "organizations" WHERE "id" = 0
 from(OrganizationTable)
     .where { o -> o.id eq 0 }
     .delete()
+```
+
+## Download
+
+Maven:
+
+```xml
+<!-- Core library -->
+<dependency>
+  <groupId>com.nivabit.kuery</groupId>
+  <artifactId>core</artifactId>
+  <version>0.1</version>
+  <type>pom</type>
+</dependency>
+
+<!-- SQLite dialect -->
+<dependency>
+  <groupId>com.nivabit.kuery</groupId>
+  <artifactId>sqlite</artifactId>
+  <version>0.1</version>
+  <type>pom</type>
+</dependency>
+```
+
+Gradle:
+
+```groovy
+// Core library
+compile 'com.nivabit.kuery:core:0.1'
+// SQLite dialect
+compile 'com.nivabit.kuery:sqlite:0.1'
 ```
