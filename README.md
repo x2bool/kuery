@@ -59,16 +59,16 @@ import com.nivabit.kuery.sqlite.*
 // CREATE TABLE "organizations" ...
 over(OrganizationTable)
     .create {
-        it.id.integer().primaryKey(autoIncrement = true) +
-        it.name.text().unique().notNull()
+        integer(it.id).primaryKey(autoIncrement = true)..
+        text(it.name).unique().notNull()
     }
     
 // CREATE TABLE "employees" ...
 over(EmployeeTable)
     .create {
-        it.id.integer().primaryKey(autoIncrement = true) +
-        it.name.text().unique().notNull() +
-        it.organizationId.integer().foreignKey(references = OrganizationTable.id)
+        integer(it.id).primaryKey(autoIncrement = true)..
+        text(it.name).unique().notNull()..
+        integer(it.organizationId).foreignKey(references = OrganizationTable.id)
     }
 ```
 
@@ -88,7 +88,7 @@ Data manipulation is the most powerfull and complex part of SQL. The library sup
 ```kotlin
 // INSERT INTO "employees"("name", "organization_id") VALUES(?, ?)
 into(EmployeeTable)
-    .insert { e -> e.name("?") + e.organizationId("?") }
+    .insert { e -> e.name("?") .. e.organizationId("?") }
 ```
 
 ### SELECT statement
@@ -108,10 +108,10 @@ The library provides the following operators to compose queries:
 // SELECT "id", "name" FROM "organizations" WHERE ...
 from(EmployeeTable)
     .where { e -> (e.organizationId ne null) and (e.name eq "''") }
-    .orderBy { e -> e.name.asc + e.id.desc }
+    .orderBy { e -> e.name.asc .. e.id.desc }
     .limit { 10 }
     .offset { 10 }
-    .select { e -> e.id + e.name }
+    .select { e -> e.id .. e.name }
 ```
 
 **JOINs** are also supported in select statements
@@ -120,7 +120,7 @@ from(EmployeeTable)
 // SELECT ... FROM "organizations" JOIN "employees" ON ...
 from(OrganizationTable)
     .join(EmployeeTable).on { o, e -> o.id eq e.organizationId }
-    .select { o, e -> o.name + e.name }
+    .select { o, e -> o.name .. e.name }
 ```
 
 ### UPDATE statement
@@ -149,7 +149,7 @@ Maven:
 <dependency>
   <groupId>com.nivabit.kuery</groupId>
   <artifactId>core</artifactId>
-  <version>0.1</version>
+  <version>0.2</version>
   <type>pom</type>
 </dependency>
 
@@ -157,7 +157,7 @@ Maven:
 <dependency>
   <groupId>com.nivabit.kuery</groupId>
   <artifactId>sqlite</artifactId>
-  <version>0.1</version>
+  <version>0.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -166,7 +166,7 @@ Gradle:
 
 ```groovy
 // Core library
-compile 'com.nivabit.kuery:core:0.1'
+compile 'com.nivabit.kuery:core:0.2'
 // SQLite dialect
-compile 'com.nivabit.kuery:sqlite:0.1'
+compile 'com.nivabit.kuery:sqlite:0.2'
 ```
