@@ -15,7 +15,19 @@ open class Table(private val name: String) {
         val desc: Ordering
             get() = Ordering.By(this, false)
 
-        operator fun invoke(value: Any?): Assignment {
+        operator fun invoke(column: Column): Assignment {
+            return Assignment.Value(this, column)
+        }
+
+        operator fun invoke(value: String?): Assignment {
+            return Assignment.Value(this, value)
+        }
+
+        operator fun invoke(value: Number): Assignment {
+            return Assignment.Value(this, value)
+        }
+
+        operator fun invoke(value: Boolean): Assignment {
             return Assignment.Value(this, value)
         }
 
