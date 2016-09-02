@@ -1,5 +1,6 @@
 package com.nivabit.kuery
 
+import com.nivabit.kuery.ddl.Definition
 import com.nivabit.kuery.dml.*
 
 open class Table(private val name: String) {
@@ -39,4 +40,24 @@ open class Table(private val name: String) {
     override fun toString(): String {
         return name
     }
+}
+
+operator fun Table.Column.rangeTo(column: Table.Column): Iterable<Table.Column> {
+    return listOf(this, column)
+}
+
+operator fun Iterable<Table.Column>.rangeTo(column: Table.Column): Iterable<Table.Column> {
+    return this.plusElement(column)
+}
+
+operator fun Iterable<Ordering>.rangeTo(ordering: Ordering): Iterable<Ordering> {
+    return if (this is Ordering) listOf(this, ordering) else this.plusElement(ordering)
+}
+
+operator fun Iterable<Assignment>.rangeTo(assignment: Assignment): Iterable<Assignment> {
+    return if (this is Assignment) listOf(this, assignment) else this.plusElement(assignment)
+}
+
+operator fun Iterable<Definition>.rangeTo(definition: Definition): Iterable<Definition> {
+    return if (this is Definition) listOf(this, definition) else this.plusElement(definition)
 }
