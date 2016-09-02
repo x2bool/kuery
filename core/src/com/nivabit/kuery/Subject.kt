@@ -38,14 +38,20 @@ open class Subject<T: Table> {
             return WhereClause(predicate(table), this)
         }
 
+        inline fun groupBy(projection: (T) -> Iterable<Projection>): GroupClause<T> {
+            return GroupClause(projection(table), this, null)
+        }
+
         inline fun orderBy(order: (T) -> Iterable<Ordering>): OrderClause<T> {
-            return OrderClause(order(table), this, null)
+            return OrderClause(order(table), this, null, null, null)
         }
 
         inline fun limit(limit: () -> String): LimitClause<T> {
             return LimitClause(
                     limit(),
                     this,
+                    null,
+                    null,
                     null,
                     null)
         }
@@ -56,6 +62,8 @@ open class Subject<T: Table> {
                     limit { "-1" },
                     this,
                     null,
+                    null,
+                    null,
                     null)
         }
 
@@ -63,6 +71,8 @@ open class Subject<T: Table> {
             return SelectStatement(
                     projection(table),
                     this,
+                    null,
+                    null,
                     null,
                     null,
                     null,

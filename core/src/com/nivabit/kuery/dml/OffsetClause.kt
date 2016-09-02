@@ -7,7 +7,9 @@ class OffsetClause<T: Table>(
         val limit: LimitClause<T>,
         val subject: Subject<T>,
         val whereClause: WhereClause<T>?,
-        val orderClause: OrderClause<T>?) {
+        val orderClause: OrderClause<T>?,
+        val groupClause: GroupClause<T>?,
+        val havingClause: HavingClause<T>?) {
 
     inline fun select(projection: (T) -> Iterable<Projection>): SelectStatement<T> {
         return SelectStatement(
@@ -16,7 +18,9 @@ class OffsetClause<T: Table>(
                 whereClause,
                 orderClause,
                 limit,
-                this)
+                this,
+                groupClause,
+                havingClause)
     }
 }
 
@@ -25,7 +29,9 @@ class Offset2Clause<T: Table, T2: Table>(
         val limit2Clause: Limit2Clause<T, T2>,
         val joinOn2Clause: JoinOn2Clause<T, T2>,
         val whereClause: Where2Clause<T, T2>?,
-        val orderClause: Order2Clause<T, T2>?) {
+        val orderClause: Order2Clause<T, T2>?,
+        val group2Clause: Group2Clause<T, T2>?,
+        val having2Clause: Having2Clause<T, T2>?) {
 
     inline fun select(projection: (T, T2) -> Iterable<Projection>): Select2Statement<T, T2> {
         return Select2Statement(
@@ -34,7 +40,9 @@ class Offset2Clause<T: Table, T2: Table>(
                 whereClause,
                 orderClause,
                 limit2Clause,
-                this)
+                this,
+                group2Clause,
+                having2Clause)
     }
 
 }
@@ -44,7 +52,9 @@ class Offset3Clause<T: Table, T2: Table, T3: Table>(
         val limit3Clause: Limit3Clause<T, T2, T3>,
         val joinOn3Clause: JoinOn3Clause<T, T2, T3>,
         val where3Clause: Where3Clause<T, T2, T3>?,
-        val order3Clause: Order3Clause<T, T2, T3>?) {
+        val order3Clause: Order3Clause<T, T2, T3>?,
+        val group3Clause: Group3Clause<T, T2, T3>?,
+        val having3Clause: Having3Clause<T, T2, T3>?) {
 
     inline fun select(projection: (T, T2, T3) -> Iterable<Projection>): Select3Statement<T, T2, T3> {
         return Select3Statement(
@@ -53,7 +63,9 @@ class Offset3Clause<T: Table, T2: Table, T3: Table>(
                 where3Clause,
                 order3Clause,
                 limit3Clause,
-                this)
+                this,
+                group3Clause,
+                having3Clause)
     }
 }
 
@@ -62,7 +74,9 @@ class Offset4Clause<T: Table, T2: Table, T3: Table, T4: Table>(
         val limit4Clause: Limit4Clause<T, T2, T3, T4>,
         val joinOn4Clause: JoinOn4Clause<T, T2, T3, T4>,
         val where4Clause: Where4Clause<T, T2, T3, T4>?,
-        val order4Clause: Order4Clause<T, T2, T3, T4>?) {
+        val order4Clause: Order4Clause<T, T2, T3, T4>?,
+        val group4Clause: Group4Clause<T, T2, T3, T4>?,
+        val having4Clause: Having4Clause<T, T2, T3, T4>?) {
 
     inline fun select(projection: (T, T2, T3, T4) -> Iterable<Projection>): Select4Statement<T, T2, T3, T4> {
         return Select4Statement(
@@ -76,6 +90,8 @@ class Offset4Clause<T: Table, T2: Table, T3: Table, T4: Table>(
                 where4Clause,
                 order4Clause,
                 limit4Clause,
-                this)
+                this,
+                group4Clause,
+                having4Clause)
     }
 }

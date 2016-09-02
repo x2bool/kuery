@@ -1,6 +1,5 @@
 package com.nivabit.kuery
 
-import com.nivabit.kuery.ddl.*
 import com.nivabit.kuery.dml.*
 
 open class Table(private val name: String) {
@@ -10,16 +9,13 @@ open class Table(private val name: String) {
         val table: Table
             get() = this@Table
 
-        override val projection: Any
-            get() = this
-
-        val asc: Ordering.By
+        val asc: Ordering
             get() = Ordering.By(this, true)
 
-        val desc: Ordering.By
+        val desc: Ordering
             get() = Ordering.By(this, false)
 
-        operator fun invoke(value: Any?): Assignment.Value {
+        operator fun invoke(value: Any?): Assignment {
             return Assignment.Value(this, value)
         }
 

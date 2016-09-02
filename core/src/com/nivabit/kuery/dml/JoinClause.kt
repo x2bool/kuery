@@ -36,14 +36,20 @@ class JoinOn2Clause<T: Table, T2: Table>(
         return Where2Clause(predicate(subject.table, table2), this)
     }
 
+    inline fun groupBy(group: (T, T2) -> Iterable<Projection>): Group2Clause<T, T2> {
+        return Group2Clause(group(subject.table, table2), this, null)
+    }
+
     inline fun orderBy(order: (T, T2) -> Iterable<Ordering>): Order2Clause<T, T2> {
-        return Order2Clause(order(subject.table, table2), this, null)
+        return Order2Clause(order(subject.table, table2), this, null, null, null)
     }
 
     inline fun limit(limit: () -> Any): Limit2Clause<T, T2> {
         return Limit2Clause(
                 limit(),
                 this,
+                null,
+                null,
                 null,
                 null)
     }
@@ -54,6 +60,8 @@ class JoinOn2Clause<T: Table, T2: Table>(
                 limit { "-1" },
                 this,
                 null,
+                null,
+                null,
                 null)
     }
 
@@ -61,6 +69,8 @@ class JoinOn2Clause<T: Table, T2: Table>(
         return Select2Statement(
                 projection(subject.table, table2),
                 this,
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -102,10 +112,20 @@ class JoinOn3Clause<T: Table, T2: Table, T3: Table>(
         return Where3Clause(predicate(joinOn2Clause.subject.table, joinOn2Clause.table2, table3), this)
     }
 
+    inline fun groupBy(group: (T, T2, T3) -> Iterable<Projection>): Group3Clause<T, T2, T3> {
+        return Group3Clause(
+                group(joinOn2Clause.subject.table, joinOn2Clause.table2, table3),
+                this,
+                null
+        )
+    }
+
     inline fun orderBy(order: (T, T2, T3) -> Iterable<Ordering>): Order3Clause<T, T2, T3> {
         return Order3Clause(
                 order(joinOn2Clause.subject.table, joinOn2Clause.table2, table3),
                 this,
+                null,
+                null,
                 null
         )
     }
@@ -114,6 +134,8 @@ class JoinOn3Clause<T: Table, T2: Table, T3: Table>(
         return Limit3Clause(
                 limit(),
                 this,
+                null,
+                null,
                 null,
                 null)
     }
@@ -124,6 +146,8 @@ class JoinOn3Clause<T: Table, T2: Table, T3: Table>(
                 limit { "-1" },
                 this,
                 null,
+                null,
+                null,
                 null)
     }
 
@@ -131,6 +155,8 @@ class JoinOn3Clause<T: Table, T2: Table, T3: Table>(
         return Select3Statement(
                 projection(joinOn2Clause.subject.table, joinOn2Clause.table2, table3),
                 this,
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -171,9 +197,9 @@ class JoinOn4Clause<T: Table, T2: Table, T3: Table, T4: Table>(
                 this)
     }
 
-    inline fun orderBy(order: (T, T2, T3, T4) -> Iterable<Ordering>): Order4Clause<T, T2, T3, T4> {
-        return Order4Clause(
-                order(
+    inline fun groupBy(group: (T, T2, T3, T4) -> Iterable<Projection>): Group4Clause<T, T2, T3, T4> {
+        return Group4Clause(
+                group(
                         joinOn3Clause.joinOn2Clause.subject.table,
                         joinOn3Clause.joinOn2Clause.table2,
                         joinOn3Clause.table3,
@@ -184,10 +210,27 @@ class JoinOn4Clause<T: Table, T2: Table, T3: Table, T4: Table>(
         )
     }
 
+    inline fun orderBy(order: (T, T2, T3, T4) -> Iterable<Ordering>): Order4Clause<T, T2, T3, T4> {
+        return Order4Clause(
+                order(
+                        joinOn3Clause.joinOn2Clause.subject.table,
+                        joinOn3Clause.joinOn2Clause.table2,
+                        joinOn3Clause.table3,
+                        table4
+                ),
+                this,
+                null,
+                null,
+                null
+        )
+    }
+
     inline fun limit(limit: () -> Any): Limit4Clause<T, T2, T3, T4> {
         return Limit4Clause(
                 limit(),
                 this,
+                null,
+                null,
                 null,
                 null)
     }
@@ -197,6 +240,8 @@ class JoinOn4Clause<T: Table, T2: Table, T3: Table, T4: Table>(
                 offset(),
                 limit { "-1" },
                 this,
+                null,
+                null,
                 null,
                 null)
     }
@@ -210,6 +255,8 @@ class JoinOn4Clause<T: Table, T2: Table, T3: Table, T4: Table>(
                         table4
                 ),
                 this,
+                null,
+                null,
                 null,
                 null,
                 null,

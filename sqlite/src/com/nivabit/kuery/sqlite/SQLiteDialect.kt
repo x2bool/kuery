@@ -61,24 +61,40 @@ object SQLiteDialect : Dialect {
         builder.append(" FROM ")
         appendTableName(builder, statement.subject.table)
 
-        if (statement.whereClause != null) {
+        val where = statement.whereClause
+        if (where != null) {
             builder.append(" WHERE ")
-            appendPredicate(builder, statement.whereClause!!.predicate, false)
+            appendPredicate(builder, where.predicate, false)
         }
 
-        if (statement.orderClause != null) {
+        val group = statement.groupClause
+        if (group != null) {
+            builder.append(" GROUP BY ")
+            appendProjection(builder, group.projection, false)
+        }
+
+        val having = statement.havingClause
+        if (having != null) {
+            builder.append(" HAVING ")
+            appendPredicate(builder, having.predicate, false)
+        }
+
+        val order = statement.orderClause
+        if (order != null) {
             builder.append(" ORDER BY ")
-            appendOrdering(builder, statement.orderClause!!.orderings, false)
+            appendOrdering(builder, order.orderings, false)
         }
 
-        if (statement.limitClause != null) {
+        val limit = statement.limitClause
+        if (limit != null) {
             builder.append(" LIMIT ")
-            builder.append(statement.limitClause!!.limit)
+            builder.append(limit.limit)
         }
 
-        if (statement.offsetClause != null) {
+        val offset = statement.offsetClause
+        if (offset != null) {
             builder.append(" OFFSET ")
-            builder.append(statement.offsetClause!!.offset)
+            builder.append(offset.offset)
         }
 
         return builder.toString()
@@ -98,24 +114,40 @@ object SQLiteDialect : Dialect {
         builder.append(" ON ")
         appendPredicate(builder, statement.joinOn2Clause.condition, true)
 
-        if (statement.where2Clause != null) {
+        val where = statement.where2Clause
+        if (where != null) {
             builder.append(" WHERE ")
-            appendPredicate(builder, statement.where2Clause!!.predicate, true)
+            appendPredicate(builder, where.predicate, true)
         }
 
-        if (statement.order2Clause != null) {
+        val group = statement.group2Clause
+        if (group != null) {
+            builder.append(" GROUP BY ")
+            appendProjection(builder, group.projection, true)
+        }
+
+        val having = statement.having2Clause
+        if (having != null) {
+            builder.append(" HAVING ")
+            appendPredicate(builder, having.predicate, true)
+        }
+
+        val order = statement.order2Clause
+        if (order != null) {
             builder.append(" ORDER BY ")
-            appendOrdering(builder, statement.order2Clause!!.orderings, true)
+            appendOrdering(builder, order.orderings, true)
         }
 
-        if (statement.limit2Clause != null) {
+        val limit = statement.limit2Clause
+        if (limit != null) {
             builder.append(" LIMIT ")
-            builder.append(statement.limit2Clause!!.limit)
+            builder.append(limit.limit)
         }
 
-        if (statement.offset2Clause != null) {
+        val offset = statement.offset2Clause
+        if (offset != null) {
             builder.append(" OFFSET ")
-            builder.append(statement.offset2Clause!!.offset)
+            builder.append(offset.offset)
         }
 
         return builder.toString()
@@ -141,24 +173,40 @@ object SQLiteDialect : Dialect {
         builder.append(" ON ")
         appendPredicate(builder, statement.joinOn3Clause.condition, true)
 
-        if (statement.where3Clause != null) {
+        val where = statement.where3Clause
+        if (where != null) {
             builder.append(" WHERE ")
-            appendPredicate(builder, statement.where3Clause!!.predicate, true)
+            appendPredicate(builder, where.predicate, true)
         }
 
-        if (statement.order3Clause != null) {
+        val group = statement.group3Clause
+        if (group != null) {
+            builder.append(" GROUP BY ")
+            appendProjection(builder, group.projection, true)
+        }
+
+        val having = statement.having3Clause
+        if (having != null) {
+            builder.append(" HAVING ")
+            appendPredicate(builder, having.predicate, true)
+        }
+
+        val order = statement.order3Clause
+        if (order != null) {
             builder.append(" ORDER BY ")
-            appendOrdering(builder, statement.order3Clause!!.orderings, true)
+            appendOrdering(builder, order.orderings, true)
         }
 
-        if (statement.limit3Clause != null) {
+        val limit = statement.limit3Clause
+        if (limit != null) {
             builder.append(" LIMIT ")
-            builder.append(statement.limit3Clause!!.limit)
+            builder.append(limit.limit)
         }
 
-        if (statement.offset3Clause != null) {
+        val offset = statement.offset3Clause
+        if (offset != null) {
             builder.append(" OFFSET ")
-            builder.append(statement.offset3Clause!!.offset)
+            builder.append(offset.offset)
         }
 
         return builder.toString()
@@ -190,24 +238,40 @@ object SQLiteDialect : Dialect {
         builder.append(" ON ")
         appendPredicate(builder, statement.joinOn4Clause.condition, true)
 
-        if (statement.where4Clause != null) {
+        val where = statement.where4Clause
+        if (where != null) {
             builder.append(" WHERE ")
-            appendPredicate(builder, statement.where4Clause!!.predicate, true)
+            appendPredicate(builder, where.predicate, true)
         }
 
-        if (statement.order4Clause != null) {
+        val group = statement.group4Clause
+        if (group != null) {
+            builder.append(" GROUP BY ")
+            appendProjection(builder, group.projection, true)
+        }
+
+        val having = statement.having4Clause
+        if (having != null) {
+            builder.append(" HAVING ")
+            appendPredicate(builder, having.predicate, true)
+        }
+
+        val order = statement.order4Clause
+        if (order != null) {
             builder.append(" ORDER BY ")
-            appendOrdering(builder, statement.order4Clause!!.orderings, true)
+            appendOrdering(builder, order.orderings, true)
         }
 
-        if (statement.limit4Clause != null) {
+        val limit = statement.limit4Clause
+        if (limit != null) {
             builder.append(" LIMIT ")
-            builder.append(statement.limit4Clause!!.limit)
+            builder.append(limit.limit)
         }
 
-        if (statement.offset4Clause != null) {
+        val offset = statement.offset4Clause
+        if (offset != null) {
             builder.append(" OFFSET ")
-            builder.append(statement.offset4Clause!!.offset)
+            builder.append(offset.offset)
         }
 
         return builder.toString()
@@ -261,9 +325,10 @@ object SQLiteDialect : Dialect {
             appendValue(builder, assign.value)
         }
 
-        if (statement.whereClause != null) {
+        val where = statement.whereClause
+        if (where != null) {
             builder.append(" WHERE ")
-            appendPredicate(builder, statement.whereClause!!.predicate, false)
+            appendPredicate(builder, where.predicate, false)
         }
 
         return builder.toString()
@@ -274,9 +339,10 @@ object SQLiteDialect : Dialect {
         builder.append("DELETE FROM ")
         appendTableName(builder, statement.subject.table)
 
-        if (statement.whereClause != null) {
+        val where = statement.whereClause
+        if (where != null) {
             builder.append(" WHERE ")
-            appendPredicate(builder, statement.whereClause!!.predicate, false)
+            appendPredicate(builder, where.predicate, false)
         }
 
         return builder.toString()
@@ -377,14 +443,14 @@ object SQLiteDialect : Dialect {
             builder.append(delim)
             delim = ", "
 
-            if (proj.projection is Table.Column) {
+            if (proj is Table.Column) {
                 if (fullFormat) {
-                    appendFullColumnName(builder, proj.projection as Table.Column)
+                    appendFullColumnName(builder, proj)
                 } else {
-                    appendShortColumnName(builder, proj.projection as Table.Column)
+                    appendShortColumnName(builder, proj)
                 }
             } else {
-                builder.append(proj.projection)
+                builder.append(proj)
             }
         }
     }
@@ -410,19 +476,19 @@ object SQLiteDialect : Dialect {
         }
     }
 
-    private inline fun appendTableName(builder: StringBuilder, table: Table) {
+    private fun appendTableName(builder: StringBuilder, table: Table) {
         builder.append("\"$table\"")
     }
 
-    private inline fun appendShortColumnName(builder: StringBuilder, column: Table.Column) {
+    private fun appendShortColumnName(builder: StringBuilder, column: Table.Column) {
         builder.append("\"$column\"")
     }
 
-    private inline fun appendFullColumnName(builder: StringBuilder, column: Table.Column) {
+    private fun appendFullColumnName(builder: StringBuilder, column: Table.Column) {
         builder.append("\"${column.table}\".\"$column\"")
     }
 
-    private inline fun appendValue(builder: StringBuilder, value: Any?) {
+    private fun appendValue(builder: StringBuilder, value: Any?) {
         if (value == null) builder.append("NULL")
         else builder.append(value)
     }
