@@ -108,6 +108,8 @@ The library provides the following operators to compose queries:
 // SELECT "id", "name" FROM "organizations" WHERE ...
 from(EmployeeTable)
     .where { e -> (e.organizationId ne null) and (e.name eq "''") }
+    .groupBy { e -> e.name }
+    .having { e -> e.id ne null }
     .orderBy { e -> e.name.asc .. e.id.desc }
     .limit { 10 }
     .offset { 10 }
@@ -149,7 +151,7 @@ Maven:
 <dependency>
   <groupId>com.nivabit.kuery</groupId>
   <artifactId>core</artifactId>
-  <version>0.2</version>
+  <version>0.3</version>
   <type>pom</type>
 </dependency>
 
@@ -157,7 +159,7 @@ Maven:
 <dependency>
   <groupId>com.nivabit.kuery</groupId>
   <artifactId>sqlite</artifactId>
-  <version>0.2</version>
+  <version>0.3</version>
   <type>pom</type>
 </dependency>
 ```
@@ -166,7 +168,7 @@ Gradle:
 
 ```groovy
 // Core library
-compile 'com.nivabit.kuery:core:0.2'
+compile 'com.nivabit.kuery:core:0.3'
 // SQLite dialect
-compile 'com.nivabit.kuery:sqlite:0.2'
+compile 'com.nivabit.kuery:sqlite:0.3'
 ```
