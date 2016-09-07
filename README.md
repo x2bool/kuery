@@ -10,6 +10,7 @@ The library is a strongly typed alternative to plain text SQL. The main goal of 
 * Strongly typed DSL makes it harder to make mistakes. Some of the most common errors are catched at compile time.
 * IDE's assist in code editing.
 * Easier and safer refactoring/renaming.
+* No reflection
 
 ## Foundation
 
