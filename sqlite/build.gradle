@@ -4,11 +4,12 @@ apply from: "${rootProject.rootDir}/bintray.gradle"
 
 sourceSets {
     main.kotlin.srcDirs += 'src'
+    test.kotlin.srcDirs += 'src/test'
 }
 
 dependencies {
-  compile project(':core')
-  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  testCompile 'junit:junit:4.11'
-  testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    compile project(':core')
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'junit:junit:4.12'
+    compile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }
