@@ -33,4 +33,11 @@ class SQLiteDialectTest {
         val result = from(TestTable).where { (it.component1 eq 1) and (it.component2 eq "TEST") }.select { it.component1..it.component2 }.toString(SQLiteDialect)
         assertEquals(expected, result)
     }
+
+    @Test
+    fun `test select all`() {
+        val expected = "SELECT * FROM \"TestTable\" WHERE ((\"component1\" = 1) AND (\"component2\" = 'TEST'))"
+        val result = from(TestTable).where { (it.component1 eq 1) and (it.component2 eq "TEST") }.selectAll().toString(SQLiteDialect)
+        assertEquals(expected, result)
+    }
 }
