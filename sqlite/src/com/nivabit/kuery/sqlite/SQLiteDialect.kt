@@ -491,7 +491,9 @@ object SQLiteDialect : Dialect {
 
     private fun appendValue(builder: StringBuilder, value: Any?) {
         value?.let {
-            builder.append(if (value is String) "\'$value\'" else value)
+            builder.append((value as? String)?.escapedSQLString() ?: value)
         } ?: builder.append("NULL")
     }
+
+    private fun String.escapedSQLString(): String = "\'${this.replace("'", "''")}\'"
 }

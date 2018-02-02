@@ -33,4 +33,15 @@ class SQLiteDialectTest {
         val result = from(TestTable).where { (it.component1 eq 1) and (it.component2 eq "TEST") }.select { it.component1..it.component2 }.toString(SQLiteDialect)
         assertEquals(expected, result)
     }
+
+    @Test
+    fun `test where with Strings containing single and double quotes`() {
+        val expectedSingle = "SELECT \"component1\", \"component2\" FROM \"TestTable\" WHERE ((\"component1\" = 1) AND (\"component2\" = 'T''EST'))"
+        val resultSingle = from(TestTable).where { (it.component1 eq 1) and (it.component2 eq "T'EST") }.select { it.component1..it.component2 }.toString(SQLiteDialect)
+        assertEquals(expectedSingle, resultSingle)
+
+        val expectedDouble = "SELECT \"component1\", \"component2\" FROM \"TestTable\" WHERE ((\"component1\" = 1) AND (\"component2\" = 'T\"EST'))"
+        val resultDouble = from(TestTable).where { (it.component1 eq 1) and (it.component2 eq "T\"EST") }.select { it.component1..it.component2 }.toString(SQLiteDialect)
+        assertEquals(expectedDouble, resultDouble)
+    }
 }
