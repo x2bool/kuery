@@ -58,7 +58,7 @@ bintray {
     user = project.ext.properties.containsKey("bintray_user") ? project.ext.get("bintray_user") : System.getenv('BINTRAY_USER')
     key = project.ext.properties.containsKey("bintray_apikey") ? project.ext.get("bintray_apikey") : System.getenv('BINTRAY_API_KEY')
 
-    publications  = [project.name]
+    publications = [project.name]
     pkg {
         repo = 'maven'
         name = 'kuery'
@@ -70,7 +70,7 @@ bintray {
         version {
             name = rootProject.ext.version_name
             desc = projDescription
-            released = new java.util.Date()
+            released = new Date()
             vcsTag = rootProject.ext.version_name
         }
     }

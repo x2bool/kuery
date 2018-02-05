@@ -1,7 +1,8 @@
 package com.nivabit.kuery.sqlite
 
 import com.nivabit.kuery.*
-import com.nivabit.kuery.ddl.*
+import com.nivabit.kuery.ddl.CreateTableStatement
+import com.nivabit.kuery.ddl.DropTableStatement
 import com.nivabit.kuery.dml.*
 
 object SQLiteDialect : Dialect {
@@ -283,7 +284,7 @@ object SQLiteDialect : Dialect {
         appendTableName(builder, statement.subject.table)
         builder.append(" (")
 
-        var delim = "";
+        var delim = ""
 
         for (assign in statement.assignments) {
             builder.append(delim)
@@ -294,7 +295,7 @@ object SQLiteDialect : Dialect {
 
         builder.append(") VALUES (")
 
-        delim = "";
+        delim = ""
 
         for (assign in statement.assignments) {
             builder.append(delim)
@@ -437,20 +438,23 @@ object SQLiteDialect : Dialect {
     }
 
     private fun appendProjection(builder: StringBuilder, projection: Iterable<Projection>, fullFormat: Boolean) {
-        var delim = ""
+        if ("SELECT".contentEquals(builder.toString().trim()) and projection.none()) {
+            builder.append("*")
+        } else {
+            var delim = ""
+            for (proj in projection) {
+                builder.append(delim)
+                delim = ", "
 
-        for (proj in projection) {
-            builder.append(delim)
-            delim = ", "
-
-            if (proj is Table.Column) {
-                if (fullFormat) {
-                    appendFullColumnName(builder, proj)
+                if (proj is Table.Column) {
+                    if (fullFormat) {
+                        appendFullColumnName(builder, proj)
+                    } else {
+                        appendShortColumnName(builder, proj)
+                    }
                 } else {
-                    appendShortColumnName(builder, proj)
+                    builder.append(proj)
                 }
-            } else {
-                builder.append(proj)
             }
         }
     }
