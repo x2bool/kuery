@@ -1,6 +1,8 @@
 package com.nivabit.kuery.dml
 
-import com.nivabit.kuery.*
+import com.nivabit.kuery.Predicate
+import com.nivabit.kuery.Subject
+import com.nivabit.kuery.Table
 
 class WhereClause<T: Table>(
         val predicate: Predicate,
@@ -38,6 +40,19 @@ class WhereClause<T: Table>(
     inline fun select(projection: (T) -> Iterable<Projection>): SelectStatement<T> {
         return SelectStatement(
                 projection(subject.table),
+                subject,
+                this,
+                null,
+                null,
+                null,
+                null,
+                null
+        )
+    }
+
+    inline fun selectAll(): SelectStatement<T> {
+        return SelectStatement(
+                listOf(),
                 subject,
                 this,
                 null,

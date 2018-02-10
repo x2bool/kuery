@@ -438,20 +438,23 @@ object SQLiteDialect : Dialect {
     }
 
     private fun appendProjection(builder: StringBuilder, projection: Iterable<Projection>, fullFormat: Boolean) {
-        var delim = ""
+        if ("SELECT".contentEquals(builder.toString().trim()) and projection.none()) {
+            builder.append("*")
+        } else {
+            var delim = ""
+            for (proj in projection) {
+                builder.append(delim)
+                delim = ", "
 
-        for (proj in projection) {
-            builder.append(delim)
-            delim = ", "
-
-            if (proj is Table.Column) {
-                if (fullFormat) {
-                    appendFullColumnName(builder, proj)
+                if (proj is Table.Column) {
+                    if (fullFormat) {
+                        appendFullColumnName(builder, proj)
+                    } else {
+                        appendShortColumnName(builder, proj)
+                    }
                 } else {
-                    appendShortColumnName(builder, proj)
+                    builder.append(proj)
                 }
-            } else {
-                builder.append(proj)
             }
         }
     }
