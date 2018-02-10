@@ -1,7 +1,8 @@
 package com.nivabit.kuery.sqlite
 
 import com.nivabit.kuery.*
-import com.nivabit.kuery.ddl.*
+import com.nivabit.kuery.ddl.CreateTableStatement
+import com.nivabit.kuery.ddl.DropTableStatement
 import com.nivabit.kuery.dml.*
 
 object SQLiteDialect : Dialect {
@@ -283,7 +284,7 @@ object SQLiteDialect : Dialect {
         appendTableName(builder, statement.subject.table)
         builder.append(" (")
 
-        var delim = "";
+        var delim = ""
 
         for (assign in statement.assignments) {
             builder.append(delim)
@@ -294,7 +295,7 @@ object SQLiteDialect : Dialect {
 
         builder.append(") VALUES (")
 
-        delim = "";
+        delim = ""
 
         for (assign in statement.assignments) {
             builder.append(delim)
@@ -489,7 +490,10 @@ object SQLiteDialect : Dialect {
     }
 
     private fun appendValue(builder: StringBuilder, value: Any?) {
-        if (value == null) builder.append("NULL")
-        else builder.append(value)
+        value?.let {
+            builder.append((value as? String)?.escapedSQLString() ?: value)
+        } ?: builder.append("NULL")
     }
+
+    private fun String.escapedSQLString(): String = "\'${this.replace("'", "''")}\'"
 }
