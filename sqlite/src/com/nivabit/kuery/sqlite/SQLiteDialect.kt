@@ -428,7 +428,7 @@ object SQLiteDialect : Dialect {
             is GteExpression -> {
                 builder.append('(')
                 appendPredicate(builder, value.left, fullFormat)
-                builder.append(" <= ")
+                builder.append(" >= ")
                 appendPredicate(builder, value.right, fullFormat)
                 builder.append(')')
             }

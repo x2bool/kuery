@@ -36,9 +36,9 @@ class SQLiteDefinition(column: Table.Column, val meta: SQLiteDefinition.Meta) : 
 
     class ForeignKeyConstraint(val references: Table.Column)
 
-    class UniqueConstraint()
+    class UniqueConstraint
 
-    class NotNullConstraint()
+    class NotNullConstraint
 }
 
 fun integer(column: Table.Column): SQLiteDefinition {
