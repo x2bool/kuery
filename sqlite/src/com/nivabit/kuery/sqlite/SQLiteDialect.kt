@@ -283,7 +283,7 @@ object SQLiteDialect : Dialect {
         appendTableName(builder, statement.subject.table)
         builder.append(" (")
 
-        var delim = "";
+        var delim = ""
 
         for (assign in statement.assignments) {
             builder.append(delim)
@@ -294,7 +294,7 @@ object SQLiteDialect : Dialect {
 
         builder.append(") VALUES (")
 
-        delim = "";
+        delim = ""
 
         for (assign in statement.assignments) {
             builder.append(delim)
@@ -427,7 +427,7 @@ object SQLiteDialect : Dialect {
             is GteExpression -> {
                 builder.append('(')
                 appendPredicate(builder, value.left, fullFormat)
-                builder.append(" <= ")
+                builder.append(" >= ")
                 appendPredicate(builder, value.right, fullFormat)
                 builder.append(')')
             }
