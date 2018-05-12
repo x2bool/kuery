@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.21'
+    ext.kotlin_version = '1.2.41'
 
     repositories {
         jcenter()
@@ -12,7 +12,7 @@ buildscript {
 }
 
 ext.group_id = 'tel.egram.kuery'
-ext.version_name = '0.3'
+ext.version_name = '0.5'
 
 allprojects {
     apply plugin: 'maven'
@@ -21,8 +21,4 @@ allprojects {
         jcenter()
         mavenCentral()
     }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

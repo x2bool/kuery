@@ -15,7 +15,7 @@ artifacts {
     archives sourcesJar, javadocJar
 }
 
-def projDescription = 'The library is a strongly typed alternative to plain text SQL. Powered by Kotlin.'
+def projDescription = 'Strongly typed alternative to plain text SQL. Powered by Kotlin.'
 
 project.ext.set("bintray_repo", "")
 

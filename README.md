@@ -1,8 +1,6 @@
 # Kuery - strongly typed SQL in Kotlin
 
-The library is a strongly typed alternative to plain text SQL. The main goal of this project is to make database-related code easier to develop and evolve. The project uses some of the Kotlin language features to achieve a certain level of type safety.
-
-**WARNING: the library is at an early development stage. The APIs are unstable and might be changed in the future.**
+The library is a strongly typed alternative to plain text SQL. The main goal of this project is to make database-related code easier to develop and maintain. The project uses some of the Kotlin language features to achieve type safety.
 
 ## Features
 
@@ -49,7 +47,7 @@ print(sql) // SELECT "name" FROM "employees" WHERE "id" = 1
 
 ## Data Definition Language
 
-Many parts of data definition language are specific to SQL dialects. An example for SQLite might look like this:
+Some parts of data definition language are specific to SQL dialects. An example for SQLite might look like this:
 
 ### CREATE TABLE statement
 
@@ -87,9 +85,9 @@ Data manipulation is the most powerfull and complex part of SQL. The library sup
 ### INSERT statement
 
 ```kotlin
-// INSERT INTO "employees"("name", "organization_id") VALUES(?, ?)
+// INSERT INTO "employees"("name", "organization_id") VALUES("John Doe", 1)
 into(EmployeeTable)
-    .insert { e -> e.name("?") .. e.organizationId("?") }
+    .insert { e -> e.name("John Doe") .. e.organizationId(1) }
 ```
 
 ### SELECT statement
@@ -108,7 +106,7 @@ The library provides the following operators to compose queries:
 ```kotlin
 // SELECT "id", "name" FROM "organizations" WHERE ...
 from(EmployeeTable)
-    .where { e -> (e.organizationId ne null) and (e.name eq "''") }
+    .where { e -> (e.organizationId ne null) and (e.name eq "John Doe") }
     .groupBy { e -> e.name }
     .having { e -> e.id ne null }
     .orderBy { e -> e.name.asc .. e.id.desc }
@@ -129,10 +127,10 @@ from(OrganizationTable)
 ### UPDATE statement
 
 ```kotlin
-// UPDATE "organizations" SET "name" = ? WHERE "id" = 1
+// UPDATE "organizations" SET "name" = 'John Doe' WHERE "id" = 1
 from(OrganizationTable)
     .where { o -> o.id eq 1 }
-    .update { o -> o.name("?") }
+    .update { o -> o.name("John Doe") }
 ```
 
 ### DELETE statement
@@ -152,7 +150,7 @@ Maven:
 <dependency>
   <groupId>tel.egram.kuery</groupId>
   <artifactId>core</artifactId>
-  <version>0.3</version>
+  <version>0.5</version>
   <type>pom</type>
 </dependency>
 
@@ -160,7 +158,7 @@ Maven:
 <dependency>
   <groupId>tel.egram.kuery</groupId>
   <artifactId>sqlite</artifactId>
-  <version>0.3</version>
+  <version>0.5</version>
   <type>pom</type>
 </dependency>
 ```
@@ -169,7 +167,7 @@ Gradle:
 
 ```groovy
 // Core library
-compile 'tel.egram.kuery:core:0.3'
+compile 'tel.egram.kuery:core:0.5'
 // SQLite dialect
-compile 'tel.egram.kuery:sqlite:0.3'
+compile 'tel.egram.kuery:sqlite:0.5'
 ```
