@@ -17,7 +17,7 @@ The library is a strongly typed alternative to plain text SQL. The main goal of 
 Database structure is defined by classes/objects inherited from the **Table** class. Tables are **not** domain model classes. Their purpose is to simply define relationships between tables and columns.
 
 ```kotlin
-import com.nivabit.kuery.*
+import tel.egram.kuery.*
 
 object OrganizationTable : Table("organizations") {
 	val id = Column("id")
@@ -39,8 +39,8 @@ object EmployeeTable : Table("employees") {
 **Dialects** are responsible for converting statements into actual SQL:
 
 ```kotlin
-import com.nivabit.kuery.*
-import com.nivabit.kuery.sqlite.*
+import tel.egram.kuery.*
+import tel.egram.kuery.sqlite.*
 
 val statement = from(EmployeeTable).where { e -> e.id eq 1 }.select { e -> e.name }
 val sql = statement.toString(SQLiteDialect)
@@ -54,8 +54,8 @@ Many parts of data definition language are specific to SQL dialects. An example 
 ### CREATE TABLE statement
 
 ```kotlin
-import com.nivabit.kuery.*
-import com.nivabit.kuery.sqlite.*
+import tel.egram.kuery.*
+import tel.egram.kuery.sqlite.*
 
 // CREATE TABLE "organizations" ...
 over(OrganizationTable)
@@ -150,7 +150,7 @@ Maven:
 ```xml
 <!-- Core library -->
 <dependency>
-  <groupId>com.nivabit.kuery</groupId>
+  <groupId>tel.egram.kuery</groupId>
   <artifactId>core</artifactId>
   <version>0.3</version>
   <type>pom</type>
@@ -158,7 +158,7 @@ Maven:
 
 <!-- SQLite dialect -->
 <dependency>
-  <groupId>com.nivabit.kuery</groupId>
+  <groupId>tel.egram.kuery</groupId>
   <artifactId>sqlite</artifactId>
   <version>0.3</version>
   <type>pom</type>
@@ -169,7 +169,7 @@ Gradle:
 
 ```groovy
 // Core library
-compile 'com.nivabit.kuery:core:0.3'
+compile 'tel.egram.kuery:core:0.3'
 // SQLite dialect
-compile 'com.nivabit.kuery:sqlite:0.3'
+compile 'tel.egram.kuery:sqlite:0.3'
 ```

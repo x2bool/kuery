@@ -11,7 +11,7 @@ buildscript {
     }
 }
 
-ext.group_id = 'com.nivabit.kuery'
+ext.group_id = 'tel.egram.kuery'
 ext.version_name = '0.3'
 
 allprojects {
