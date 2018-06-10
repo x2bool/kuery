@@ -12,7 +12,7 @@ buildscript {
 }
 
 ext.group_id = 'tel.egram.kuery'
-ext.version_name = '0.5.2'
+ext.version_name = '0.5.3'
 
 allprojects {
     apply plugin: 'maven'

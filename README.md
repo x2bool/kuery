@@ -150,7 +150,7 @@ Maven:
 <dependency>
   <groupId>tel.egram.kuery</groupId>
   <artifactId>core</artifactId>
-  <version>0.5.2</version>
+  <version>0.5.3</version>
   <type>pom</type>
 </dependency>
 
@@ -158,7 +158,7 @@ Maven:
 <dependency>
   <groupId>tel.egram.kuery</groupId>
   <artifactId>sqlite</artifactId>
-  <version>0.5.2</version>
+  <version>0.5.3</version>
   <type>pom</type>
 </dependency>
 ```
@@ -167,7 +167,7 @@ Gradle:
 
 ```groovy
 // Core library
-compile 'tel.egram.kuery:core:0.5.2'
+compile 'tel.egram.kuery:core:0.5.3'
 // SQLite dialect
-compile 'tel.egram.kuery:sqlite:0.5.2'
+compile 'tel.egram.kuery:sqlite:0.5.3'
 ```
