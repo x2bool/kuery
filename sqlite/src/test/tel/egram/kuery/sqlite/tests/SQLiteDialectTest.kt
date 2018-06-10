@@ -1,6 +1,7 @@
-package tel.egram.kuery.sqlite
+package tel.egram.kuery.sqlite.tests
 
 import tel.egram.kuery.*
+import tel.egram.kuery.sqlite.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4

@@ -62,7 +62,7 @@ bintray {
     pkg {
         repo = 'maven'
         name = 'kuery'
-        userOrg = user
+        userOrg = 'egram'
         licenses = ['MIT']
         vcsUrl = 'https://github.com/x2bool/kuery.git'
         publish = true
