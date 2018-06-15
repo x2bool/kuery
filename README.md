@@ -17,12 +17,12 @@ Database structure is defined by classes/objects inherited from the **Table** cl
 ```kotlin
 import tel.egram.kuery.*
 
-object OrganizationTable : Table("organizations") {
+object Organizations : Table("organizations") {
 	val id = Column("id")
 	val name = Column("name")
 }
 
-object EmployeeTable : Table("employees") {
+object Employees : Table("employees") {
 	val id = Column("id")
 	val name = Column("name")
 	val organizationId = Column("organization_id")
@@ -40,7 +40,7 @@ object EmployeeTable : Table("employees") {
 import tel.egram.kuery.*
 import tel.egram.kuery.sqlite.*
 
-val statement = from(EmployeeTable).where { e -> e.id eq 1 }.select { e -> e.name }
+val statement = from(Employees).where { e -> e.id eq 1 }.select { e -> e.name }
 val sql = statement.toString(SQLiteDialect)
 print(sql) // SELECT "name" FROM "employees" WHERE "id" = 1
 ```
@@ -56,18 +56,18 @@ import tel.egram.kuery.*
 import tel.egram.kuery.sqlite.*
 
 // CREATE TABLE "organizations" ...
-over(OrganizationTable)
+over(Organizations)
     .create {
         integer(it.id).primaryKey(autoIncrement = true)..
         text(it.name).unique().notNull()
     }
     
 // CREATE TABLE "employees" ...
-over(EmployeeTable)
+over(Employees)
     .create {
         integer(it.id).primaryKey(autoIncrement = true)..
         text(it.name).unique().notNull()..
-        integer(it.organizationId).foreignKey(references = OrganizationTable.id)
+        integer(it.organizationId).foreignKey(references = Organizations.id)
     }
 ```
 
@@ -75,7 +75,7 @@ over(EmployeeTable)
 
 ```kotlin
 // DROP TABLE "employees"
-over(EmployeeTable).drop()
+over(Employees).drop()
 ```
 
 ## Data Manipulation Language
@@ -86,7 +86,7 @@ Data manipulation is the most powerfull and complex part of SQL. The library sup
 
 ```kotlin
 // INSERT INTO "employees"("name", "organization_id") VALUES("John Doe", 1)
-into(EmployeeTable)
+into(Employees)
     .insert { e -> e.name("John Doe") .. e.organizationId(1) }
 ```
 
@@ -105,7 +105,7 @@ The library provides the following operators to compose queries:
 
 ```kotlin
 // SELECT "id", "name" FROM "organizations" WHERE ...
-from(EmployeeTable)
+from(Employees)
     .where { e -> (e.organizationId ne null) and (e.name eq "John Doe") }
     .groupBy { e -> e.name }
     .having { e -> e.id ne null }
@@ -119,8 +119,8 @@ from(EmployeeTable)
 
 ```kotlin
 // SELECT ... FROM "organizations" JOIN "employees" ON ...
-from(OrganizationTable)
-    .join(EmployeeTable).on { o, e -> o.id eq e.organizationId }
+from(Organizations)
+    .join(Employees).on { o, e -> o.id eq e.organizationId }
     .select { o, e -> o.name .. e.name }
 ```
 
@@ -128,7 +128,7 @@ from(OrganizationTable)
 
 ```kotlin
 // UPDATE "organizations" SET "name" = 'John Doe' WHERE "id" = 1
-from(OrganizationTable)
+from(Organizations)
     .where { o -> o.id eq 1 }
     .update { o -> o.name("John Doe") }
 ```
@@ -136,7 +136,7 @@ from(OrganizationTable)
 ### DELETE statement
 ```kotlin
 // DELETE FROM "organizations" WHERE "id" = 0
-from(OrganizationTable)
+from(Organizations)
     .where { o -> o.id eq 0 }
     .delete()
 ```
